@@ -43,4 +43,15 @@ describe('users api', () => {
       });
   });
 
+  it('gets a user by id', () => {
+    return postUser(data)
+      .then(user => {
+        return request
+          .get(`/api/users/${user._id}`)
+          .expect(200)
+          .then(({ body }) => {
+            expect(body).toEqual(data);
+          });
+      });
+  });
 });
