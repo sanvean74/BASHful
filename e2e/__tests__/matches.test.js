@@ -28,31 +28,32 @@ describe('matches api', () => {
       .then(({ body }) => body);
   }
 
-  it('post a match for this user', () => {
-    return request
-      .post('/api/match')
-      .set('Authorization', user.token)
-      .send(match)
-      .expect(200)
-      .then(({ body }) => {
-        expect(body.owner).toBe(user._id);
-        expect(body).toMatchInlineSnapshot(
-          {
-            _id: expect.any(String),
-            owner: expect.any(String)
-          },
-        );
-      });
-  });
+  // it('post a match for this user', () => {
+  //   return request
+  //     .post('/api/match')
+  //     .set('Authorization', user.token)
+  //     .send(match)
+  //     .expect(200)
+  //     .then(({ body }) => {
+  //       expect(body.owner).toBe(user._id);
+  //       expect(body).toMatchInlineSnapshot(
+  //         {
+  //           _id: expect.any(String),
+  //           owner: expect.any(String)
+  //         },
+  //       );
+  //     });
+  // });
 
   it('post a match', () => {
-    return postMatch(match, user).then(match => {
-      expect(match).toEqual({
-        _id: expect.any(String),
-        __v: 0,
-        ...match
+    return postMatch(match, user)
+      .then(match => {
+        expect(match).toEqual({
+          _id: expect.any(String),
+          __v: 0,
+          ...match
+        });
       });
-    });
   });
 
   it('gets a list of matches', () => {
@@ -78,7 +79,7 @@ describe('matches api', () => {
             state: 'Washington'
           },
           image: '/assets/images/testt.jpg'
-        }, 
+        },
         user,
       ),
 
@@ -92,7 +93,7 @@ describe('matches api', () => {
             state: 'England'
           },
           image: '/assets/images/testseb.jpg'
-        }, 
+        },
         user,
       )
     ])
