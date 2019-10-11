@@ -11,7 +11,7 @@ describe('Auth API', () => {
   };
 
 
-  it('signs up a user', () => {
+  it.skip('signs up a user', () => {
     return request
       .post('/api/auth/signup')
       .send(testUser)
