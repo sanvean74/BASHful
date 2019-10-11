@@ -25,7 +25,6 @@ describe('Answers API', () => {
   });
 
   it('posts answers', () => {
-    console.log(user);
     return request
       .post('/api/answers')
       .send({
@@ -53,6 +52,42 @@ describe('Answers API', () => {
           }
         `
         );
+      });
+  });
+
+  it('gets answers', () => {
+    return request
+      .post('/api/answers')
+      .send({
+        answers: ['Evan', 'female', 23, 30]
+      })
+      .set('Authorization', user.token)
+      .expect(200)
+      .then(() => {
+        return request
+          .get('/api/answers')
+          .set('Authorization', user.token)
+          .then(({ body }) => {
+            expect(body[0]).toMatchInlineSnapshot(
+              {
+                _id: expect.any(String),
+                user: expect.any(String)
+              },
+              `
+              Object {
+                "__v": 0,
+                "_id": Any<String>,
+                "answers": Array [
+                  "Evan",
+                  "female",
+                  "23",
+                  "30",
+                ],
+                "user": Any<String>,
+              }
+            `
+            );
+          });
       });
   });
 });
