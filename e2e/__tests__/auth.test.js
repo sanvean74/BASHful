@@ -29,11 +29,17 @@ describe('Auth API', () => {
 
   it('signs in a user', () => {
     return request
-      .post('/api/auth/signin')
+      .post('/api/auth/signup')
       .send(userData)
       .expect(200)
-      .then(({ body }) => {
-        expect(body.token).toBeDefined();
+      .then(() => {
+        return request
+          .post('/api/auth/signin')
+          .send(userData)
+          .expect(200)
+          .then(({ body }) => {
+            expect(body.token).toBeDefined();
+          });
       });
   });
 });
