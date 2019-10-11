@@ -1,4 +1,4 @@
-# A/S/L A Terminal Based Dating Simulator
+# BASHful: A Terminal Date Simulator
 
 ## Created By: 
 Dylan Corvidae, 
@@ -11,7 +11,7 @@ Antonella Gutierrez
 A Terminal Based Dating Simulator
 
 ## Problem Domain: 
-In this ultra-consumerist reality that we currently find ourselves the only respite from the constant barrage to output more, create more, be more, is to dull our brains with mindless entertainment. Our app is meant to bring you peace through comedy and give you a break from the monotony of the ultra-capitalistic society we live in.
+Are you too bashful to go outside and talk to real people?  Here is a dating simulator to help curb those social anxiety fears. Refine your ideas for what constitutes the perfect date.  For all genders and orientations.
 
 ## Semantic Versioning: 
 1.0.0
