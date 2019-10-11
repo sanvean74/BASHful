@@ -1,5 +1,5 @@
 {
-  "name": "BASHful",
+  "name": "bashful",
   "version": "1.0.0",
   "description": "A Terminal Based Dating Simulator",
   "main": "server.js",
@@ -37,7 +37,7 @@
     "@shelf/jest-mongodb": "^1.1.1",
     "eslint": "^6.4.0",
     "jest": "^24.9.0",
-    "nodemon": "^1.19.3",
+    "nodemon": "^1.19.2",
     "prettier": "^1.18.2",
     "supertest": "^4.0.2"
   },
@@ -49,5 +49,13 @@
   },
   "prettier": {
     "singleQuote": true
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Team-Dead-Ant/BASHful.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Team-Dead-Ant/BASHful/issues"
+  },
+  "homepage": "https://github.com/Team-Dead-Ant/BASHful#readme"
 }
