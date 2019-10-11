@@ -1,5 +1,8 @@
 const request = require('../request');
 const db = require('../db');
+const { signUpUser } = require('../data-helpers');
+const User = require('../../lib/models/user');
+
 
 describe('users api', () => {
   beforeEach(() => {
