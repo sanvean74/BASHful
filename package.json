@@ -8,7 +8,7 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "pretest": "npm run lint",
+    "retest": "npm run lint",
     "jest": "jest --runInBand",
     "test": "npm run jest",
     "test:coverage": "npm run test -- --coverage",
