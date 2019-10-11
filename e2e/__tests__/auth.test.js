@@ -26,4 +26,14 @@ describe('Auth API', () => {
         expect(user.token).toBeDefined();
       });
   });
+
+  it('signs in a user', () => {
+    return request
+      .post('/api/auth/signin')
+      .send(userData)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.token).toBeDefined();
+      });
+  });
 });
