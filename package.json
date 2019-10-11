@@ -1,5 +1,5 @@
 {
-  "name": "BASHful",
+  "name": "bashful",
   "version": "1.0.0",
   "description": "A Terminal Based Dating Simulator",
   "main": "server.js",
@@ -49,5 +49,13 @@
   },
   "prettier": {
     "singleQuote": true
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Team-Dead-Ant/BASHful.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Team-Dead-Ant/BASHful/issues"
+  },
+  "homepage": "https://github.com/Team-Dead-Ant/BASHful#readme"
 }
