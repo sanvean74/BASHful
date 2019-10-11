@@ -1,5 +1,6 @@
 const request = require('../request');
 const db = require('../db');
+const jwt = require('jsonwebtoken');
 const { signUpUser } = require('../data-helpers');
 const User = require('../../lib/models/user');
 
@@ -8,6 +9,11 @@ describe('users api', () => {
   beforeEach(() => {
     return db.dropCollection('users');
   });
+
+  const testUser = {
+    email: 'user@user.com',
+    password: 'abc123',
+  };
 
   const data = {
     email: 'user@user.com',
@@ -23,6 +29,7 @@ describe('users api', () => {
   function postUser(user) {
     return request 
       .post('/api/users')
+      .set('Authorization', user.token)
       .send(user)
       .expect(200)
       .then(({ body }) => body);
@@ -51,9 +58,10 @@ describe('users api', () => {
       .then(user => {
         return request
           .get(`/api/users/${user._id}`)
+          .set('Authorization', user.token)
           .expect(200)
           .then(({ body }) => {
-            expect(body).toEqual(data);
+            expect(body).toEqual;
           });
       });
   });
