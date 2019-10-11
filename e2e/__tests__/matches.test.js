@@ -21,29 +21,28 @@ describe('matches api', () => {
 
   function postMatch(match, user) {
     return request
-      .post('/api/match')
+      .post('/api/matches')
       .set('Authorization', user.token)
       .send(match)
       .expect(200)
       .then(({ body }) => body);
   }
 
-  // it('post a match for this user', () => {
-  //   return request
-  //     .post('/api/match')
-  //     .set('Authorization', user.token)
-  //     .send(match)
-  //     .expect(200)
-  //     .then(({ body }) => {
-  //       expect(body.owner).toBe(user._id);
-  //       expect(body).toMatchInlineSnapshot(
-  //         {
-  //           _id: expect.any(String),
-  //           owner: expect.any(String)
-  //         },
-  //       );
-  //     });
-  // });
+  it('post a match for this user', () => {
+    return request
+      .post('/api/matches')
+      .set('Authorization', user.token)
+      .send(match)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body).toMatchInlineSnapshot(
+          {
+            _id: expect.any(String),
+            user: expect.any(String)
+          },
+        );
+      });
+  });
 
   it('post a match', () => {
     return postMatch(match, user)
