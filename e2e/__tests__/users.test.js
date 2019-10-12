@@ -1,7 +1,6 @@
 const request = require('../request');
 const db = require('../db');
-const { signUpUser } = require('../data-helpers');
-const User = require('../../lib/models/user');
+const { signupUser, signinUser } = require('../data-helpers');
 
 
 describe('users api', () => {
@@ -9,10 +8,22 @@ describe('users api', () => {
     return db.dropCollection('users');
   });
 
-  const data = {
+  const testUser = {
     email: 'user@user.com',
     password: 'abc123',
-    name: 'Bill',
+    name: 'Bill'
+  };
+
+  let user = null;
+  beforeEach(() => {
+    return signupUser(testUser)
+      .then(() => {
+        return signinUser(testUser)
+          .then(body => user = body);
+      });
+  });
+
+  const player = {
     age: 18,
     minPrefAge: 18,
     maxPrefAge: 120,
@@ -20,41 +31,22 @@ describe('users api', () => {
     genderPref: 'non-binary'
   };
 
-  function postUser(user) {
-    return request 
-      .post('/api/users')
-      .send(user)
+  it('updates user extra fields', () => {
+    return request
+      .put(`/api/users/${user._id}`)
+      .set('Authorization', user.token)
+      .send(player)
       .expect(200)
-      .then(({ body }) => body);
-  }
-
-  it('posts a user', () => {
-    return postUser(data)
-      .then(user => {
-        expect(user).toEqual({
+      .then(({ body }) => {
+        expect(body).toEqual({
+          email: expect.any(String),
+          name: expect.any(String),
+          hash: expect.any(String),
           _id: expect.any(String),
           __v: 0,
-          hash: expect.any(String),
-          email: 'user@user.com',
-          name: 'Bill',
-          age: 18,
-          minPrefAge: 18,
-          maxPrefAge: 120,
-          gender: 'non-binary',
-          genderPref: 'non-binary'
-        }); 
+          ...player
+        });
       });
-  });
 
-  it('gets a user by id', () => {
-    return postUser(data)
-      .then(user => {
-        return request
-          .get(`/api/users/${user._id}`)
-          .expect(200)
-          .then(({ body }) => {
-            expect(body).toEqual(data);
-          });
-      });
   });
 });
