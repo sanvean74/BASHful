@@ -1,6 +1,7 @@
 const request = require('./request');
 
 const testUser = {
+  name: 'Bill',
   email: 'me@me.com',
   password: 'abc'
 };
