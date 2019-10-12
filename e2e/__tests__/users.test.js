@@ -2,7 +2,6 @@ const request = require('../request');
 const db = require('../db');
 const { signupUser, signinUser } = require('../data-helpers');
 
-
 describe('users api', () => {
   beforeEach(() => {
     return db.dropCollection('users');
@@ -16,11 +15,9 @@ describe('users api', () => {
 
   let user = null;
   beforeEach(() => {
-    return signupUser(testUser)
-      .then(() => {
-        return signinUser(testUser)
-          .then(body => user = body);
-      });
+    return signupUser(testUser).then(() => {
+      return signinUser(testUser).then(body => (user = body));
+    });
   });
 
   const player = {
@@ -30,6 +27,31 @@ describe('users api', () => {
     gender: 'non-binary',
     genderPref: 'non-binary'
   };
+
+  it('posts user', () => {
+    return request
+      .post('/api/users')
+      .send(testUser)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body).toMatchInlineSnapshot(
+          {
+            __v: 0,
+            _id: expect.any(String),
+            hash: expect.any(String)
+          },
+          `
+          Object {
+            "__v": 0,
+            "_id": Any<String>,
+            "email": "user@user.com",
+            "hash": Any<String>,
+            "name": "Bill",
+          }
+        `
+        );
+      });
+  });
 
   it('updates user extra fields', () => {
     return request
@@ -47,6 +69,58 @@ describe('users api', () => {
           ...player
         });
       });
+  });
 
+  it('gets the user by id', () => {
+    return request
+      .put(`/api/users/${user._id}`)
+      .set('Authorization', user.token)
+      .send(player)
+      .expect(200)
+      .then(() => {
+        return request
+          .get(`/api/users/${user._id}`)
+          .set('Authorization', user.token)
+          .expect(200)
+          .then(({ body }) => {
+            expect(body).toMatchInlineSnapshot(
+              {
+                __v: 0,
+                _id: expect.any(String),
+                hash: expect.any(String)
+              },
+              `
+              Object {
+                "__v": 0,
+                "_id": Any<String>,
+                "age": 18,
+                "email": "user@user.com",
+                "gender": "non-binary",
+                "genderPref": "non-binary",
+                "hash": Any<String>,
+                "maxPrefAge": 120,
+                "minPrefAge": 18,
+                "name": "Bill",
+              }
+            `
+            );
+          });
+      });
+  });
+
+  it('deletes user', () => {
+    return request
+      .delete(`/api/users/${user._id}`)
+      .set('Authorization', user.token)
+      .expect(200)
+      .then(() => {
+        return request
+          .get(`/api/users/${user._id}`)
+          .set('Authorization', user.token)
+          .expect(200)
+          .then(({ body }) => {
+            expect(body).toBe(null);
+          });
+      });
   });
 });
