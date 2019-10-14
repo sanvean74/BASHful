@@ -105,19 +105,28 @@ describe('matches api', () => {
         expect(body[0]).toMatchInlineSnapshot(
           {
             _id: expect.any(String),
+            age: expect.any(Number),
+            gender: expect.any(String),
+            image: expect.any(String),
             location: {
               city: expect.any(String),
               state: expect.any(String)
-            }
+            },
+            name: expect.any(String)
           },
 
           `
           Object {
+            "__v": 0,
             "_id": Any<String>,
+            "age": Any<Number>,
+            "gender": Any<String>,
+            "image": Any<String>,
             "location": Object {
               "city": Any<String>,
               "state": Any<String>,
             },
+            "name": Any<String>,
           }
         `
         );
