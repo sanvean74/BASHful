@@ -1,117 +1,98 @@
 const request = require('../request');
 const db = require('../db');
-const { signupUser } = require('../data-helpers');
+const { signupUser, signinUser } = require('../data-helpers');
 
 describe('matches api', () => {
   beforeEach(() => db.dropCollection('users'));
   beforeEach(() => db.dropCollection('matches'));
 
-  let user;
-  beforeEach(() => {
-    return signupUser().then(newUser => (user = newUser));
-  });
-
-  const match = {
-    name: 'Light Yagami',
-    gender: 'male',
-    age: 19,
-    location: {
-      city: 'Portland',
-      state: 'Oregon'
-    },
-    image: '/assets/images/testm.jpg'
+  const testUser = {
+    email: 'user@user.com',
+    password: 'abc123',
+    name: 'Bill'
   };
+
+  const player = {
+    age: 18,
+    minPrefAge: 18,
+    maxPrefAge: 120,
+    gender: 'non-binary',
+    genderPref: 'non-binary'
+  };
+
+  let user = null;
+  beforeEach(() => {
+    return signupUser(testUser).then(() => {
+      return signinUser(testUser).then(res => {
+        user = res;
+        return request
+          .put(`/api/users/${user._id}`)
+          .set('Authorization', user.token)
+          .send(player)
+          .expect(200)
+          .then(({ body }) => {
+            user = body;
+            user.token = res.token;
+          });
+      });
+    });
+  });
 
   it('post a match for this user', () => {
     return request
       .post('/api/matches')
       .set('Authorization', user.token)
-      .send(match)
+      .send({
+        minAge: user.minPrefAge,
+        maxAge: user.maxPrefAge,
+        gender: user.genderPref
+      })
       .expect(200)
       .then(({ body }) => {
         expect(body).toMatchInlineSnapshot(
           {
             _id: expect.any(String),
-            location: [
-              {
-                _id: expect.any(String)
-              }
-            ]
+            age: expect.any(Number),
+            gender: expect.any(String),
+            image: expect.any(String),
+            location: {
+              city: expect.any(String),
+              state: expect.any(String)
+            },
+            name: expect.any(String)
           },
-
           `
           Object {
             "__v": 0,
             "_id": Any<String>,
-            "age": 19,
-            "gender": Array [
-              "male",
-            ],
-            "image": "/assets/images/testm.jpg",
-            "location": Array [
-              Object {
-                "_id": Any<String>,
-                "city": "Portland",
-                "state": "Oregon",
-              },
-            ],
-            "name": "Light Yagami",
+            "age": Any<Number>,
+            "gender": Any<String>,
+            "image": Any<String>,
+            "location": Object {
+              "city": Any<String>,
+              "state": Any<String>,
+            },
+            "name": Any<String>,
           }
         `
         );
       });
   });
-  function postMatch(match, user) {
+  function postMatch(user) {
     return request
       .post('/api/matches')
       .set('Authorization', user.token)
-      .send(match)
+      .send({
+        minAge: user.minPrefAge,
+        maxAge: user.maxPrefAge,
+        gender: user.genderPref
+      })
       .expect(200)
       .then(({ body }) => body);
   }
 
   it('gets a list of matches', () => {
-    const firstMatch = {
-      name: 'Light Yagami',
-      gender: 'male',
-      age: 19,
-      location: {
-        city: 'Portland',
-        state: 'Oregon'
-      },
-      image: '/assets/images/testm.jpg'
-    };
-    return Promise.all([
-      postMatch(firstMatch, user),
-      postMatch(
-        {
-          name: 'Tuxedo Mask',
-          gender: 'male',
-          age: 18,
-          location: {
-            city: 'Seattle',
-            state: 'Washington'
-          },
-          image: '/assets/images/testm.jpg'
-        },
-        user
-      ),
-
-      postMatch(
-        {
-          name: 'Sebastian Michaelis',
-          gender: 'male',
-          age: 99,
-          location: {
-            city: 'London',
-            state: 'England'
-          },
-          image: '/assets/images/testseb.jpg'
-        },
-        user
-      )
-    ])
-
+    return Promise.all([postMatch(user), postMatch(user), postMatch(user)])
       .then(() => {
         return request
           .get('/api/matches')
@@ -124,23 +105,19 @@ describe('matches api', () => {
         expect(body[0]).toMatchInlineSnapshot(
           {
             _id: expect.any(String),
-            location: [
-              {
-                _id: expect.any(String)
-              }
-            ]
+            location: {
+              city: expect.any(String),
+              state: expect.any(String)
+            }
           },
 
           `
           Object {
             "_id": Any<String>,
-            "location": Array [
-              Object {
-                "_id": Any<String>,
-                "city": "Portland",
-                "state": "Oregon",
-              },
-            ],
+            "location": Object {
+              "city": Any<String>,
+              "state": Any<String>,
+            },
           }
         `
         );
