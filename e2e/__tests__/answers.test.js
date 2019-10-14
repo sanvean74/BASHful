@@ -2,6 +2,7 @@ const request = require('../request');
 const { dropCollection } = require('../db');
 
 describe('Answers API', () => {
+  
   beforeEach(() => dropCollection('answers'));
   beforeEach(() => dropCollection('users'));
 
@@ -21,73 +22,24 @@ describe('Answers API', () => {
     return request
       .post('/api/auth/signup')
       .send(userData)
-      .then(({ body }) => (user = body));
+      .then(({ body }) => user = body);
   });
 
   it('posts answers', () => {
     return request
       .post('/api/answers')
       .send({
-        answers: ['Evan', 'female', 23, 30]
+        answers: ['Evan', 'female', 23, 30],
+        user: user._id
       })
-      .set('Authorization', user.token)
       .expect(200)
       .then(({ body }) => {
-        expect(body).toMatchInlineSnapshot(
-          {
-            _id: expect.any(String),
-            user: expect.any(String)
-          },
-          `
-          Object {
-            "__v": 0,
-            "_id": Any<String>,
-            "answers": Array [
-              "Evan",
-              "female",
-              "23",
-              "30",
-            ],
-            "user": Any<String>,
+        expect(body).toMatchInlineSnapshot({
+          _id: expect.any(String),
+          user: {
+            _id: expect.any(String)
           }
-        `
-        );
-      });
-  });
-
-  it('gets answers', () => {
-    return request
-      .post('/api/answers')
-      .send({
-        answers: ['Evan', 'female', 23, 30]
-      })
-      .set('Authorization', user.token)
-      .expect(200)
-      .then(() => {
-        return request
-          .get('/api/answers')
-          .set('Authorization', user.token)
-          .then(({ body }) => {
-            expect(body[0]).toMatchInlineSnapshot(
-              {
-                _id: expect.any(String),
-                user: expect.any(String)
-              },
-              `
-              Object {
-                "__v": 0,
-                "_id": Any<String>,
-                "answers": Array [
-                  "Evan",
-                  "female",
-                  "23",
-                  "30",
-                ],
-                "user": Any<String>,
-              }
-            `
-            );
-          });
+        });
       });
   });
 });
