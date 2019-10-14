@@ -22,17 +22,21 @@ Are you too bashful to go outside and talk to real people?  Here is a dating sim
 
 
 ### Libraries, Frameworks, Packages: 
-bcryptjs 
+asciify-image
+bcryptjs
+chalk
+chance 
 cors 
 dotenv 
 eslint 
-esm 
 express 
+inquirer
 jsdom 
 jsonwebtoken 
+mongoose
 morgan 
 nodemon 
-pg 
+play-sound
 superagent 
 
 
