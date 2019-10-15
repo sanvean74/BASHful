@@ -44,7 +44,10 @@ const signinPrompt = () =>
         email: answers.email,
         password: answers.password 
       };
-      return signinUser(user);
+      return request
+        .post(`${REQUEST_URL}/api/auth/signin`)
+        .send(user)
+        .then(({ body }) => body);
     });
 
 const signupPrompt = () =>  
