@@ -6,9 +6,9 @@ const options = {
   height: 40
 };
 
-asciify('./assets/images/BASHful-ascii-ver.png', options, function(err, asciified) {
+asciify('./assets/images/DeadAnt-Logo.png', options, function(err, asciified) {
   if(err) throw err;
 
   // Print to console
   console.log(asciified);
-}); 
+});
