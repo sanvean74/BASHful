@@ -24,8 +24,8 @@ describe('users api', () => {
     age: 18,
     minPrefAge: 18,
     maxPrefAge: 120,
-    gender: 'non-binary',
-    genderPref: 'non-binary'
+    gender: ['non-binary'],
+    genderPref: ['non-binary']
   };
 
   it('posts user', () => {
@@ -45,6 +45,8 @@ describe('users api', () => {
             "__v": 0,
             "_id": Any<String>,
             "email": "user@user.com",
+            "gender": Array [],
+            "genderPref": Array [],
             "hash": Any<String>,
             "name": "Bill",
           }
@@ -95,8 +97,12 @@ describe('users api', () => {
                 "_id": Any<String>,
                 "age": 18,
                 "email": "user@user.com",
-                "gender": "non-binary",
-                "genderPref": "non-binary",
+                "gender": Array [
+                  "non-binary",
+                ],
+                "genderPref": Array [
+                  "non-binary",
+                ],
                 "hash": Any<String>,
                 "maxPrefAge": 120,
                 "minPrefAge": 18,

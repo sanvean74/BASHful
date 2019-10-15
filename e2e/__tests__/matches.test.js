@@ -16,8 +16,8 @@ describe('matches api', () => {
     age: 18,
     minPrefAge: 18,
     maxPrefAge: 120,
-    gender: 'non-binary',
-    genderPref: 'non-binary'
+    gender: ['non-binary'],
+    genderPref: ['non-binary']
   };
 
   let user = null;
@@ -49,11 +49,11 @@ describe('matches api', () => {
       })
       .expect(200)
       .then(({ body }) => {
-        expect(body).toMatchInlineSnapshot(
+        expect(body[0]).toMatchInlineSnapshot(
           {
             _id: expect.any(String),
             age: expect.any(Number),
-            gender: expect.any(String),
+            gender: [expect.any(String)],
             image: expect.any(String),
             location: {
               city: expect.any(String),
@@ -66,7 +66,9 @@ describe('matches api', () => {
             "__v": 0,
             "_id": Any<String>,
             "age": Any<Number>,
-            "gender": Any<String>,
+            "gender": Array [
+              Any<String>,
+            ],
             "image": Any<String>,
             "location": Object {
               "city": Any<String>,
@@ -99,14 +101,14 @@ describe('matches api', () => {
           .expect(200)
           .set('Authorization', user.token)
           .expect(200);
-      })
+      }) 
       .then(({ body }) => {
-        expect(body.length).toBe(3);
+        expect(body.length).toBe(9);
         expect(body[0]).toMatchInlineSnapshot(
           {
             _id: expect.any(String),
             age: expect.any(Number),
-            gender: expect.any(String),
+            gender: [expect.any(String)],
             image: expect.any(String),
             location: {
               city: expect.any(String),
@@ -120,7 +122,9 @@ describe('matches api', () => {
             "__v": 0,
             "_id": Any<String>,
             "age": Any<Number>,
-            "gender": Any<String>,
+            "gender": Array [
+              Any<String>,
+            ],
             "image": Any<String>,
             "location": Object {
               "city": Any<String>,
