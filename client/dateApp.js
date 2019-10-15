@@ -13,9 +13,14 @@ const startApp = [{
 
 const matchChoices = [
   {
-
+    type: 'list',
+    name: 'matchChoice',
+    message: 'Pick your date!',
+    choices: ['date1', 'date2', 'date3']
   }
-]
+];
+
+let matchesReturned = {};
 
 const dateApp = () => inquirer.prompt(startApp)
   .then(answers => {
@@ -24,10 +29,10 @@ const dateApp = () => inquirer.prompt(startApp)
     switch(answers.start) {
       case 'Sign In' :
         signinPrompt();
-        break;
+        // break;
       case 'Sign Up' :
         signupPrompt();
-        break;
+        // break;
     }    
   })
   
@@ -36,10 +41,14 @@ const dateApp = () => inquirer.prompt(startApp)
       .post(`${REQUEST_URL}/api/matches`)
       .set('Authorization', user.token)
       .send(user.minPrefAge, user.maxPrefAge, user.genderPref)
-      .then(({ body }) => body);
+      .then(({ body }) => matchesReturned = body);
   })
   .then(() => {
-    inquirer.prompt()
-  })
+    inquirer.prompt(matchChoices)
+      .then(match => {
+        console.log(match);
+        
+      });
+  });
 
 module.exports = dateApp;
