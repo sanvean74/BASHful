@@ -74,6 +74,74 @@ const signupPrefs = [
   }
 ];
 
+const intermission = [
+  {
+    type: 'boolean',
+    name: 'intermission',
+    message: 'Nice Choice! We have some questions before your date begins.'
+  }
+];
+
+const dateQs = [
+  {
+    type: 'list',
+    name: 'timeOfDay',
+    message: 'What time of day would you like to go on a date?',
+    choices: ['morning', 'noon', 'afternoon', 'evening', 'late night']
+  },
+  {
+    type: 'input',
+    name: 'venue',
+    message: 'Where would you like to go on a date?',
+  },  
+  {
+    type: 'input',
+    name: 'activity',
+    message: 'What activity would you like to partake in? (ending in ing)',
+  },    
+  {
+    type: 'input',
+    name: 'food',
+    message: 'What is your favorite food? ',
+  },   
+  {
+    type: 'input',
+    name: 'color',
+    message: 'What is your favorite color?',
+  },   
+  {
+    type: 'list',
+    name: 'methodOfTravel',
+    message: 'How do you like to get around when not driving?',
+    choices: ['walking', 'biking', 'tandem unicyling', 'boating', 'skating']
+  },   
+  {
+    type: 'input',
+    name: 'place',
+    message: 'Name a place you love to take people.',
+  },   
+  {
+    type: 'input',
+    name: 'animals',
+    message: 'What is your favorite beverage?',
+  },   
+  {
+    type: 'input',
+    name: 'action',
+    message: 'An action word ending in -ing.',
+  },   
+  {
+    type: 'input',
+    name: 'animals',
+    message: 'What restaurant/bar would you take a date to?',
+  },   
+  {
+    type: 'input',
+    name: 'animals',
+    message: 'What is your favorite article of clothing that you always wear on a first date?',
+  }, 
+];
+
 let chosenThree;
 
 function newMatches(user) {
@@ -89,11 +157,7 @@ function newMatches(user) {
         message: 'Pick your date!',
         choices: [`${chosenThree[0].name}`, `${chosenThree[1].name}`, `${chosenThree[2].name}`]
       }
-    ))
-    .then(match => {
-      console.log(match);
-    });
-
+    ));
 }
 
 const signinPrompt = () =>
@@ -154,9 +218,8 @@ const signupPrompt = () =>
             choices: [`${chosenThree[0].name}`, `${chosenThree[1].name}`, `${chosenThree[2].name}`]
           }
         ))
-        .then(match => {
-          console.log(match);
-        });
+        .then(() => inquirer.prompt(intermission))
+        .then(() => inquirer.prompt(dateQs))
     });
 
 
