@@ -49,7 +49,7 @@ describe('matches api', () => {
       })
       .expect(200)
       .then(({ body }) => {
-        expect(body).toMatchInlineSnapshot(
+        expect(body[0]).toMatchInlineSnapshot(
           {
             _id: expect.any(String),
             age: expect.any(Number),
@@ -101,9 +101,9 @@ describe('matches api', () => {
           .expect(200)
           .set('Authorization', user.token)
           .expect(200);
-      })
+      }) 
       .then(({ body }) => {
-        expect(body.length).toBe(3);
+        expect(body.length).toBe(9);
         expect(body[0]).toMatchInlineSnapshot(
           {
             _id: expect.any(String),
