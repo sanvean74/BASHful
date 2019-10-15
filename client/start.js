@@ -1,7 +1,10 @@
 const inquirer = require('inquirer');
 const chalk = require('chalk');
-const request = require('superagent');
+//const agent = require('./requester');
 const { signinUser, signupUser } = require('../e2e/data-helpers');
+const request = require('superagent');
+
+const REQUEST_URL = require('./requestUrl');
 
 const signinInput = [
   {
@@ -52,7 +55,11 @@ const signupPrompt = () =>
         email: answers.email,
         password: answers.password 
       };
-      return signupUser(user);
+      
+      return request
+        .post(`${REQUEST_URL}/api/auth/signup`)
+        .send(user)
+        .then(({ body }) => body);
     });
 
 module.exports = { signinPrompt, signupPrompt };
