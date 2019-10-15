@@ -16,7 +16,7 @@ describe('matches api', () => {
     age: 18,
     minPrefAge: 18,
     maxPrefAge: 120,
-    gender: ['non-binary'],
+    gender: 'non-binary',
     genderPref: ['non-binary']
   };
 
