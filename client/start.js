@@ -100,8 +100,27 @@ const signupPrompt = () =>
       return request
         .post(`${REQUEST_URL}/api/auth/signup`)
         .send(user)
-        .then(({ body }) => body);
+        .then(({ body }) => user = body)
+        .then(() => {
+          inquirer.prompt(signupPrefs)
+            .then(pref => {
+              let userPref = {
+                gender: pref.gender,
+                age: pref.age,
+                image: pref.image,
+                genderPref: pref.genderPref,
+                minPrefAge: pref.minPrefAge,
+                maxPrefAge: pref.maxPrefAge
+              };
+
+              return request
+                .put(`${REQUEST_URL}/api/users/${user._id}`)
+                .set('Authorization', user.token)
+                .send(userPref)
+                .then(({ body }) => body);
+            });
+        });
     });
-inquirer.prompt(signupInput);
+
 
 module.exports = { signinPrompt, signupPrompt };
