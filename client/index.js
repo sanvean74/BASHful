@@ -1,3 +1,3 @@
-const dateApp = require('./dateApp');
+const startApp = require('./startApp');
 
-dateApp();
+startApp();
