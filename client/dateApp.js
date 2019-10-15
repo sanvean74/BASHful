@@ -29,26 +29,26 @@ const dateApp = () => inquirer.prompt(startApp)
     switch(answers.start) {
       case 'Sign In' :
         signinPrompt();
-        // break;
+        break;
       case 'Sign Up' :
         signupPrompt();
-        // break;
+        break;
     }    
   })
   
-  .then(user => {
-    return request
-      .post(`${REQUEST_URL}/api/matches`)
-      .set('Authorization', user.token)
-      .send(user.minPrefAge, user.maxPrefAge, user.genderPref)
-      .then(({ body }) => matchesReturned = body);
-  })
-  .then(() => {
-    inquirer.prompt(matchChoices)
-      .then(match => {
-        console.log(match);
+  // .then(user => {
+  //   return request
+  //     .post(`${REQUEST_URL}/api/matches`)
+  //     .set('Authorization', user.token)
+  //     .send(user.minPrefAge, user.maxPrefAge, user.genderPref)
+  //     .then(({ body }) => matchesReturned = body);
+  // })
+  // .then(() => {
+  //   inquirer.prompt(matchChoices)
+  //     .then(match => {
+  //       console.log(match);
         
-      });
-  });
+  //     });
+  // });
 
 module.exports = dateApp;

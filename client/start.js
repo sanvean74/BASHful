@@ -75,6 +75,17 @@ const signupPrefs = [
   }
 ];
 
+const matchChoices = [
+  {
+    type: 'list',
+    name: 'matchChoice',
+    message: 'Pick your date!',
+    choices: ['date1', 'date2', 'date3']
+  }
+];
+
+let matchesReturned = {};
+
 const signinPrompt = () =>
   inquirer.prompt(signinInput)
     .then(answers => {
@@ -117,7 +128,21 @@ const signupPrompt = () =>
                 .put(`${REQUEST_URL}/api/users/${user._id}`)
                 .set('Authorization', user.token)
                 .send(userPref)
-                .then(({ body }) => body);
+                .then(({ body }) => body)
+                .then(() => {
+                  console.log(user);
+                  return request
+                    .post(`${REQUEST_URL}/api/matches`)
+                    .set('Authorization', user.token)
+                    .send(body.minPrefAge, body.maxPrefAge, body.genderPref)
+                    .then(({ body }) => console.log(body));
+                })
+                .then(() => {
+                  inquirer.prompt(matchChoices)
+                    .then(match => {
+                      console.log(match);
+                      
+                });
             });
         });
     });
