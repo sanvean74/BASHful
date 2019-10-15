@@ -1,7 +1,5 @@
 const inquirer = require('inquirer');
-const chalk = require('chalk');
-//const agent = require('./requester');
-const { signinUser, signupUser } = require('../e2e/data-helpers');
+// const chalk = require('chalk');
 const request = require('superagent');
 
 const REQUEST_URL = require('./requestUrl');
@@ -107,43 +105,35 @@ const signupPrompt = () =>
         email: answers.email,
         password: answers.password
       };
-
       return request
         .post(`${REQUEST_URL}/api/auth/signup`)
         .send(user)
         .then(({ body }) => user = body)
-        .then(() => {
-          inquirer.prompt(signupPrefs)
-            .then(pref => {
-              let userPref = {
-                gender: pref.gender,
-                age: pref.age,
-                image: pref.image,
-                genderPref: pref.genderPref,
-                minPrefAge: pref.minPrefAge,
-                maxPrefAge: pref.maxPrefAge
-              };
-
-              return request
-                .put(`${REQUEST_URL}/api/users/${user._id}`)
-                .set('Authorization', user.token)
-                .send(userPref)
-                .then(({ body }) => body)
-                .then(() => {
-                  console.log(user);
-                  return request
-                    .post(`${REQUEST_URL}/api/matches`)
-                    .set('Authorization', user.token)
-                    .send(body.minPrefAge, body.maxPrefAge, body.genderPref)
-                    .then(({ body }) => console.log(body));
-                })
-                .then(() => {
-                  inquirer.prompt(matchChoices)
-                    .then(match => {
-                      console.log(match);
-                      
-                });
-            });
+        .then(() => inquirer.prompt(signupPrefs))    
+        .then(pref => {
+          let userPref = {
+            gender: pref.gender,
+            age: pref.age,
+            image: pref.image,
+            genderPref: pref.genderPref,
+            minPrefAge: pref.minPrefAge,
+            maxPrefAge: pref.maxPrefAge
+          };
+          return request
+            .put(`${REQUEST_URL}/api/users/${user._id}`)
+            .set('Authorization', user.token)
+            .send(userPref);
+        })
+        .then(({ body }) => {
+          return request
+            .post(`${REQUEST_URL}/api/matches`)
+            .set('Authorization', user.token)
+            .send({ minAge: body.minPrefAge, maxAge: body.maxPrefAge, gender: body.genderPref });
+        })
+        .then(({ body }) => console.log(body))
+        .then(() => inquirer.prompt(matchChoices))
+        .then(match => {
+          console.log(match);  
         });
     });
 
