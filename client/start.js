@@ -73,16 +73,7 @@ const signupPrefs = [
   }
 ];
 
-const matchChoices = [
-  {
-    type: 'list',
-    name: 'matchChoice',
-    message: 'Pick your date!',
-    choices: ['date1', 'date2', 'date3']
-  }
-];
-
-let matchesReturned = {};
+let chosenThree;
 
 const signinPrompt = () =>
   inquirer.prompt(signinInput)
@@ -109,7 +100,7 @@ const signupPrompt = () =>
         .post(`${REQUEST_URL}/api/auth/signup`)
         .send(user)
         .then(({ body }) => user = body)
-        .then(() => inquirer.prompt(signupPrefs))    
+        .then(() => inquirer.prompt(signupPrefs))
         .then(pref => {
           let userPref = {
             gender: pref.gender,
@@ -130,10 +121,17 @@ const signupPrompt = () =>
             .set('Authorization', user.token)
             .send({ minAge: body.minPrefAge, maxAge: body.maxPrefAge, gender: body.genderPref });
         })
-        .then(({ body }) => console.log(body))
-        .then(() => inquirer.prompt(matchChoices))
+        .then(({ body }) => chosenThree = body)
+        .then(() => inquirer.prompt(
+          {
+            type: 'list',
+            name: 'matchChoice',
+            message: 'Pick your date!',
+            choices: [`${chosenThree[0].name}`, `${chosenThree[1].name}`, `${chosenThree[2].name}`]
+          }
+        ))
         .then(match => {
-          console.log(match);  
+          console.log(match);
         });
     });
 
