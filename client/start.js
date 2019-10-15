@@ -57,7 +57,8 @@ const signupPrefs = [
     type: 'checkbox',
     name: 'genderPref',
     message: 'Which gender are you looking to date?',
-    choices: ['male', 'female', 'non-binary', 'no preference']
+    choices: ['male', 'female', 'non-binary', 'no preference'],
+    default: ['no preference']
   },
   {
     type: 'number',
@@ -75,6 +76,26 @@ const signupPrefs = [
 
 let chosenThree;
 
+function newMatches(user) {
+  return request
+    .post(`${REQUEST_URL}/api/matches`)
+    .set('Authorization', user.token)
+    .send({ minAge: user.minPrefAge, maxAge: user.maxPrefAge, gender: user.genderPref })
+    .then(({ body }) => chosenThree = body)
+    .then(() => inquirer.prompt(
+      {
+        type: 'list',
+        name: 'matchChoice',
+        message: 'Pick your date!',
+        choices: [`${chosenThree[0].name}`, `${chosenThree[1].name}`, `${chosenThree[2].name}`]
+      }
+    ))
+    .then(match => {
+      console.log(match);
+    });
+
+}
+
 const signinPrompt = () =>
   inquirer.prompt(signinInput)
     .then(answers => {
@@ -86,6 +107,9 @@ const signinPrompt = () =>
         .post(`${REQUEST_URL}/api/auth/signin`)
         .send(user)
         .then(({ body }) => body);
+    })
+    .then(user => {
+      return newMatches(user);
     });
 
 const signupPrompt = () =>
