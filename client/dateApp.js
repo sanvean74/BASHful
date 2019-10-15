@@ -34,7 +34,7 @@ const dateApp = () => inquirer.prompt(startApp)
         signupPrompt();
         break;
     }    
-  })
+  });
   
   // .then(user => {
   //   return request
