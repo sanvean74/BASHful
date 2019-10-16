@@ -177,10 +177,15 @@ const signinPrompt = () =>
       return request
         .post(`${REQUEST_URL}/api/auth/signin`)
         .send(user)
-        .then(({ body }) => body);
-    })
-    .then(user => {
-      return newMatches(user);
+        .then(({ body }) => {
+          user = body;
+        })
+        .then(() => {
+          console.log('user', user);
+          return newMatches(user);
+        })
+        .then(() => inquirer.prompt(intermission))
+        .then(() => inquirer.prompt(dateQs));
     });
 
 const signupPrompt = () =>
