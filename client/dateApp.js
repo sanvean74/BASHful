@@ -1,7 +1,6 @@
 const inquirer = require('inquirer');
 // const chalk = require('chalk');
 const request = require('superagent');
-const dateApp = require('./startApp');
 
 const REQUEST_URL = require('./requestUrl');
 
@@ -89,7 +88,7 @@ const aboutUs = [
   {
     type: 'boolean',
     name: 'Evan',
-    message: 'Evan: lorem ipsum. \n'
+    message: 'Evan: A full stack software developer. When he\'s not coding, he enjoys hiking, going to shows, and playing chess. \n'
   },
   {
     type: 'boolean',
@@ -99,12 +98,12 @@ const aboutUs = [
   {
     type: 'boolean',
     name: 'Donna',
-    message: 'Donna: lorem ipsum. \n'
+    message: 'Donna: Like a cat, but Vegan. Also likes chess. \n'
   },
   {
     type: 'boolean',
     name: 'Antonella',
-    message: 'Anonella: lorem ipsum. \n'
+    message: 'Anonella: Loves cute and fluffy dogs and anime, dislikes cooked carrots. Played \'Dream Daddy\' twice. \n'
   }
 ];
 
