@@ -40,7 +40,7 @@ const signupPrefs = [
     type: 'list',
     name: 'gender',
     message: 'Please enter your gender',
-    choices: ['male', 'female', 'non-binary']
+    choices: ['female', 'male', 'non-binary']
   },
   {
     type: 'number',
@@ -57,7 +57,7 @@ const signupPrefs = [
     type: 'checkbox',
     name: 'genderPref',
     message: 'Which gender are you looking to date?',
-    choices: ['male', 'female', 'non-binary', 'no preference'],
+    choices: ['female', 'male', 'non-binary', 'no preference'],
     default: ['no preference']
   },
   {
