@@ -154,6 +154,7 @@ const dateQs = [
   }
 ];
 
+let match;
 let chosenThree;
 
 function newMatches(user) {
@@ -171,12 +172,29 @@ function newMatches(user) {
       }
     ));
 }
-
-function dateSim(answers, user){
+  
+function dateSim(answers, user, match){
+  let genderPronoun;
+  let toBe;
+  let toHave;
+  console.log(match);
+  if(match.gender[0] === 'male') {
+    genderPronoun = 'he';
+    toBe = 'is';
+    toHave = 'has';
+  } else if(match.gender[0] === 'female') {
+    genderPronoun = 'she';
+    toBe = 'is';
+    toHave = 'has';
+  } else {
+    genderPronoun = 'they';
+    toBe = 'are';
+    toHave = 'have';
+  }
   return request
     .post(`${REQUEST_URL}/api/results`)
     .set('Authorization', user.token)
-    .send({ user: user._id, result:`The witching hour fast approaches, I can hear the howls of city coyotes as I am ${answers.methodOfTravel} to meet my date at the Lone Fir Cemetery.I'm wearing the ${answers.color} feather in my hair to signal to my date that I have arrived. I met ~match.name~ in front of a mausoleum in the NE corner of the cemetery. I think to myself, they sure we're brave to meet me here at this hour, let's see if ~match.pronoun~ has what it takes to keep up with me. We sat around the cemetery for a while talking and drinking some ${answers.beverage} I brought with me. After a while I suggested ${answers.activity}, which is met with enthusiasm by my new partner in crime. We headed off, plotting and laughing maniacally as we traveled to ${answers.place}. We spent several hours ${answers.activity} and worked up quite the appetite. Fortunately, by the time we decided we were done, places started opening for breakfast. We headed off to ${answers.restaurant} for ${answers.food} where we spilled our guts to one another about our lives, hopes, and dreams. After spending these hours together we decided to meet up next Saturday night for ${answers.action} during the full moon at ${answers.venue}.  All in all, this turned out to be one of my best dates, if you can believe that.` })
+    .send({ user: user._id, match: match._id, result:`The witching hour fast approaches, I can hear the howls of city coyotes as I am ${answers.methodOfTravel} to meet my date at the Lone Fir Cemetery.I'm wearing the ${answers.color} feather in my hair to signal to my date that I have arrived. I met ${match.name} in front of a mausoleum in the NE corner of the cemetery. I think to myself, ${genderPronoun} sure ${toBe} brave to meet me here at this hour, let's see if ${genderPronoun} ${toHave} what it takes to keep up with me. We sat around the cemetery for a while talking and drinking some ${answers.beverage} I brought with me. After a while I suggested ${answers.activity}, which is met with enthusiasm by my new partner in crime. We headed off, plotting and laughing maniacally as we traveled to ${answers.place}. We spent several hours ${answers.activity} and worked up quite the appetite. Fortunately, by the time we decided we were done, places started opening for breakfast. We headed off to ${answers.restaurant} for ${answers.food} where we spilled our guts to one another about our lives, hopes, and dreams. After spending these hours together we decided to meet up next Saturday night for ${answers.action} during the full moon at ${answers.venue}.  All in all, this turned out to be one of my best dates, if you can believe that.` })
     .then(({ body }) => body)
     .then((result) => {
       return request
@@ -186,7 +204,7 @@ function dateSim(answers, user){
           console.log(body.result)); //We need this to display the story to user
     });
 }
-
+  
 const signinPrompt = () =>
   inquirer.prompt(signinInput)
     .then(answers => {
@@ -201,13 +219,21 @@ const signinPrompt = () =>
           user = body;
         })
         .then(() => {
-          console.log('user', user);
-          return newMatches(user);
+          return newMatches(user)
+            .then(answer => {
+              if(answer.matchChoice === chosenThree[0].name) {
+                match = chosenThree[0];
+              } else if(answer.matchChoice === chosenThree[1].name) {
+                match = chosenThree[1];
+              } else {
+                match = chosenThree[2];
+              }
+            });
         })
         .then(() => inquirer.prompt(intermission))
         .then(() => inquirer.prompt(dateQs))
         .then((answers) => {
-          return dateSim(answers, user);
+          return dateSim(answers, user, match);
         });
     });
 
@@ -245,12 +271,21 @@ const signupPrompt = () =>
             });
         })
         .then(() => {
-          return newMatches(user);
+          return newMatches(user)
+            .then(answer => {
+              if(answer.matchChoice === chosenThree[0].name) {
+                match = chosenThree[0];
+              } else if(answer.matchChoice === chosenThree[1].name) {
+                match = chosenThree[1];
+              } else {
+                match = chosenThree[2];
+              }
+            });
         })
         .then(() => inquirer.prompt(intermission))
         .then(() => inquirer.prompt(dateQs))
         .then((answers) => {
-          return dateSim(answers, user);
+          return dateSim(answers, user, match);
         });
     });
 module.exports = { signinPrompt, signupPrompt };
