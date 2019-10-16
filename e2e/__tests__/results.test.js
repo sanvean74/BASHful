@@ -1,14 +1,57 @@
 const request = require('../request');
 const db = require('../db');
-const { signupUser } = require('../data-helpers');
+const { signupUser, signinUser } = require('../data-helpers');
 
 describe('results api', () => {
   beforeEach(() => db.dropCollection('users'));
   beforeEach(() => db.dropCollection('results'));
+  beforeEach(() => db.dropCollection('matches'));
+
+  const testUser = {
+    email: 'user@user.com',
+    password: 'abc123',
+    name: 'Bill'
+  };
+
+  const player = {
+    age: 18,
+    minPrefAge: 18,
+    maxPrefAge: 120,
+    gender: 'non-binary',
+    genderPref: ['non-binary']
+  };
 
   let user = null;
+  let match = null;
   beforeEach(() => {
-    return signupUser().then(newUser => (user = newUser));
+    return signupUser(testUser).then(() => {
+      return signinUser(testUser).then(res => {
+        user = res;
+        return request
+          .put(`/api/users/${user._id}`)
+          .set('Authorization', user.token)
+          .send(player)
+          .expect(200)
+          .then(({ body }) => {
+            user = body;
+            user.token = res.token;
+          })
+          .then(() => {
+            return request
+              .post('/api/matches')
+              .set('Authorization', user.token)
+              .send({
+                minAge: user.minPrefAge,
+                maxAge: user.maxPrefAge,
+                gender: user.genderPref
+              })
+              .expect(200)
+              .then(({ body }) => {
+                match = body[0];
+              });
+          });
+      });
+    });
   });
 
   const result = {
@@ -20,41 +63,44 @@ describe('results api', () => {
     return request
       .post('/api/results')
       .set('Authorization', user.token)
-      .send(result)
+      .send({ result: result.result, user, match })
       .expect(200)
       .then(({ body }) => {
         expect(body).toMatchInlineSnapshot(
           {
             _id: expect.any(String),
-            result: expect.any(String)
+            result: expect.any(String),
+            user: expect.any(String),
+            match: expect.any(String)
           },
           `
           Object {
             "__v": 0,
             "_id": Any<String>,
+            "match": Any<String>,
             "result": Any<String>,
+            "user": Any<String>,
           }
         `
         );
       });
   });
 
-  function postResult(result, user) {
+  function postResult(result) {
     return request
       .post('/api/results')
       .set('Authorization', user.token)
-      .send(result)
+      .send({ result: result.result, user, match })
       .expect(200)
       .then(({ body }) => body);
   }
 
   it('gets result by id', () => {
-    return postResult(result, user)
+    return postResult({ result: result.result })
       .then(result => {
         return request
           .get(`/api/results/${result._id}`)
           .set('Authorization', user.token)
-          .send(result)
           .expect(200);
       })
       .then(({ body }) => {
@@ -62,13 +108,17 @@ describe('results api', () => {
           {
             __v: 0,
             _id: expect.any(String),
-            result: expect.any(String)
+            result: expect.any(String),
+            match: expect.any(String),
+            user: expect.any(String)
           },
           `
           Object {
             "__v": 0,
             "_id": Any<String>,
+            "match": Any<String>,
             "result": Any<String>,
+            "user": Any<String>,
           }
         `
         );
