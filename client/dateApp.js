@@ -152,6 +152,7 @@ const dateQs = [
 let chosenThree;
 
 function newMatches(user) {
+  console.log(user);
   return request
     .post(`${REQUEST_URL}/api/matches`)
     .set('Authorization', user.token)
@@ -191,12 +192,17 @@ const signupPrompt = () =>
         email: answers.email,
         password: answers.password
       };
+      let token;
       return request
         .post(`${REQUEST_URL}/api/auth/signup`)
         .send(user)
-        .then(({ body }) => user = body)
+        .then(({ body }) => {
+          console.log(body);
+          token = body.token;
+          user = body;})
         .then(() => inquirer.prompt(signupPrefs))
         .then(pref => {
+          console.log(user);
           let userPref = {
             gender: pref.gender,
             age: pref.age,
@@ -207,24 +213,13 @@ const signupPrompt = () =>
           };
           return request
             .put(`${REQUEST_URL}/api/users/${user._id}`)
-            .set('Authorization', user.token)
-            .send(userPref);
+            .set('Authorization', token)
+            .send(userPref)
+            .then(({ body }) => body);
         })
-        .then(({ body }) => {
-          return request
-            .post(`${REQUEST_URL}/api/matches`)
-            .set('Authorization', user.token)
-            .send({ minAge: body.minPrefAge, maxAge: body.maxPrefAge, gender: body.genderPref });
+        .then(user => {
+          return newMatches(user);
         })
-        .then(({ body }) => chosenThree = body)
-        .then(() => inquirer.prompt(
-          {
-            type: 'list',
-            name: 'matchChoice',
-            message: 'Pick your date!',
-            choices: [`${chosenThree[0].name}`, `${chosenThree[1].name}`, `${chosenThree[2].name}`]
-          }
-        ))
         .then(() => inquirer.prompt(intermission))
         .then(() => inquirer.prompt(dateQs))
     });
