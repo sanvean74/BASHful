@@ -210,7 +210,6 @@ function dateSim(answers, user, match){
   let genderPronoun;
   let toBe;
   let toHave;
-  console.log(match);
   if(match.gender[0] === 'male') {
     genderPronoun = 'he';
     toBe = 'is';
