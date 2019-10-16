@@ -9,9 +9,7 @@ const startApp = [{
 }];
 
 const dateApp = () => inquirer.prompt(startApp)
-  .then(answers => {
-    console.log(answers);
-    
+  .then(answers => {    
     switch(answers.start) {
       case 'Sign In' :
         signinPrompt();
