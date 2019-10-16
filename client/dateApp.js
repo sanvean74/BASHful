@@ -40,7 +40,7 @@ const signupPrefs = [
     type: 'list',
     name: 'gender',
     message: 'Please enter your gender',
-    choices: ['male', 'female', 'non-binary']
+    choices: ['female', 'male', 'non-binary']
   },
   {
     type: 'number',
@@ -57,7 +57,7 @@ const signupPrefs = [
     type: 'checkbox',
     name: 'genderPref',
     message: 'Which gender are you looking to date?',
-    choices: ['male', 'female', 'non-binary', 'no preference'],
+    choices: ['female', 'male', 'non-binary', 'no preference'],
     default: ['no preference']
   },
   {
@@ -78,15 +78,7 @@ const intermission = [
   {
     type: 'boolean',
     name: 'intermission',
-    message: 'HAWT! We have some questions before your date begins. Press enter to continue'
-  }
-];
-
-const intermission2 = [
-  {
-    type: 'boolean',
-    name: 'intermission2',
-    message: 'Great job...now you\'re ready for your date! Press enter to continue'
+    message: '\n HAWT! We have some questions before your date begins. Press enter to continue \n'
   }
 ];
 
@@ -153,8 +145,13 @@ const dateQs = [
   {
     type: 'input',
     name: 'clothing',
-    message: 'What is your favorite article of clothing that you always wear on a first date?',
+    message: 'What is your favorite article of clothing that you always wear on a first date?\n',
   },
+  {
+    type: 'boolean',
+    name: 'intermission2',
+    message: 'Great job...now you\'re ready for your date! Press enter to continue\n'
+  }
 ];
 
 let chosenThree;
@@ -169,10 +166,25 @@ function newMatches(user) {
       {
         type: 'list',
         name: 'matchChoice',
-        message: 'Pick your date!',
+        message: '\n Pick your date! \n',
         choices: [`${chosenThree[0].name}`, `${chosenThree[1].name}`, `${chosenThree[2].name}`]
       }
     ));
+}
+
+function dateSim(answers, user){
+  return request
+    .post(`${REQUEST_URL}/api/results`)
+    .set('Authorization', user.token)
+    .send({ user: user._id, result:`The witching hour fast approaches, I can hear the howls of city coyotes as I am ${answers.methodOfTravel} to meet my date at the Lone Fir Cemetery.I'm wearing the ${answers.color} feather in my hair to signal to my date that I have arrived. I met ~match.name~ in front of a mausoleum in the NE corner of the cemetery. I think to myself, they sure we're brave to meet me here at this hour, let's see if ~match.pronoun~ has what it takes to keep up with me. We sat around the cemetery for a while talking and drinking some ${answers.beverage} I brought with me. After a while I suggested ${answers.activity}, which is met with enthusiasm by my new partner in crime. We headed off, plotting and laughing maniacally as we traveled to ${answers.place}. We spent several hours ${answers.activity} and worked up quite the appetite. Fortunately, by the time we decided we were done, places started opening for breakfast. We headed off to ${answers.restaurant} for ${answers.food} where we spilled our guts to one another about our lives, hopes, and dreams. After spending these hours together we decided to meet up next Saturday night for ${answers.action} during the full moon at ${answers.venue}.  All in all, this turned out to be one of my best dates, if you can believe that.` })
+    .then(({ body }) => body)
+    .then((result) => {
+      return request
+        .get(`${REQUEST_URL}/api/results/${result._id}`)
+        .set('Authorization', user.token)
+        .then(({ body }) => 
+          console.log(body.result)); //We need this to display the story to user
+    });
 }
 
 const signinPrompt = () =>
@@ -193,7 +205,10 @@ const signinPrompt = () =>
           return newMatches(user);
         })
         .then(() => inquirer.prompt(intermission))
-        .then(() => inquirer.prompt(dateQs));
+        .then(() => inquirer.prompt(dateQs))
+        .then((answers) => {
+          return dateSim(answers, user);
+        });
     });
 
 const signupPrompt = () =>
@@ -235,21 +250,7 @@ const signupPrompt = () =>
         .then(() => inquirer.prompt(intermission))
         .then(() => inquirer.prompt(dateQs))
         .then((answers) => {
-          return request
-            .post(`${REQUEST_URL}/api/results`)
-            .set('Authorization', user.token)
-            .send({ user: user._id, result:`The witching hour fast approaches, I can hear the howls of city coyotes as I am ${answers.methodOfTravel} to meet my date at the Lone Fir Cemetery.I'm wearing the ${answers.color} feather in my hair to signal to my date that I have arrived. I met ~match.name~ in front of a mausoleum in the NE corner of the cemetery. I think to myself, they sure we're brave to meet me here at this hour, let's see if ~match.pronoun~ has what it takes to keep up with me. We sat around the cemetery for a while talking and drinking some ${answers.beverage} I brought with me. After a while I suggested ${answers.activity}, which is met with enthusiasm by my new partner in crime. We headed off, plotting and laughing maniacally as we traveled to ${answers.place}. We spent several hours ${answers.activity} and worked up quite the appetite. Fortunately, by the time we decided we were done, places started opening for breakfast. We headed off to ${answers.restaurant} for ${answers.food} where we spilled our guts to one another about our lives, hopes, and dreams. After spending these hours together we decided to meet up next Saturday night for ${answers.action} during the full moon at ${answers.venue}.  All in all, this turned out to be one of my best dates, if you can believe that.` })
-            .then(({ body }) => body);
-        })
-        .then((result) => {
-          return request
-            .get(`${REQUEST_URL}/api/results/${result._id}`)
-            .set('Authorization', user.token)
-            .then(({ body }) => 
-              console.log(body.result));
-
+          return dateSim(answers, user);
         });
-
     });
-
 module.exports = { signinPrompt, signupPrompt };
