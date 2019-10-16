@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-vars */
 const inquirer = require('inquirer');
 // const chalk = require('chalk');
 const request = require('superagent');
+const storySelect = require('./stories');
 
 const REQUEST_URL = require('./requestUrl');
 
@@ -48,11 +50,11 @@ const signupPrefs = [
     message: 'Please enter your age',
     default: 18
   },
-  {
-    type: 'input',
-    name: 'image',
-    message: 'Please add a link to your best selfie'
-  },
+  // {
+  //   type: 'input',
+  //   name: 'image',
+  //   message: 'Please add a link to your best selfie'
+  // },
   {
     type: 'checkbox',
     name: 'genderPref',
@@ -205,7 +207,7 @@ function newMatches(user) {
       }
     ));
 }
-  
+
 function dateSim(answers, user, match){
   let genderPronoun;
   let toBe;
@@ -223,10 +225,13 @@ function dateSim(answers, user, match){
     toBe = 'are';
     toHave = 'have';
   }
+  
+  const story = storySelect(answers, match);
+
   return request
     .post(`${REQUEST_URL}/api/results`)
     .set('Authorization', user.token)
-    .send({ user: user._id, match: match._id, result:`The witching hour fast approaches, I can hear the howls of city coyotes as I am ${answers.methodOfTravel} to meet my date at the Lone Fir Cemetery.I'm wearing the ${answers.color} feather in my hair to signal to my date that I have arrived. I met ${match.name} in front of a mausoleum in the NE corner of the cemetery. I think to myself, ${genderPronoun} sure ${toBe} brave to meet me here at this hour, let's see if ${genderPronoun} ${toHave} what it takes to keep up with me. We sat around the cemetery for a while talking and drinking some ${answers.beverage} I brought with me. After a while I suggested ${answers.activity}, which is met with enthusiasm by my new partner in crime. We headed off, plotting and laughing maniacally as we traveled to ${answers.place}. We spent several hours ${answers.activity} and worked up quite the appetite. Fortunately, by the time we decided we were done, places started opening for breakfast. We headed off to ${answers.restaurant} for ${answers.food} where we spilled our guts to one another about our lives, hopes, and dreams. After spending these hours together we decided to meet up next Saturday night for ${answers.action} during the full moon at ${answers.venue}.  All in all, this turned out to be one of my best dates, if you can believe that.` })
+    .send({ user: user._id, match: match._id, result: story })
     .then(({ body }) => body)
     .then((result) => {
       return request
