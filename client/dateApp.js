@@ -87,7 +87,7 @@ const dateQs = [
     type: 'list',
     name: 'timeOfDay',
     message: 'What time of day would you like to go on a date?',
-    choices: ['morning', 'noon', 'afternoon', 'evening', 'late night']
+    choices: ['daybreak', 'noon', 'afternoon', 'sunset', 'late af']
   },
   {
     type: 'input',
@@ -100,9 +100,15 @@ const dateQs = [
     message: 'What activity would you like to partake in? (ending in ing)',
   },    
   {
-    type: 'input',
+    type: 'list',
     name: 'food',
-    message: 'What is your favorite food? ',
+    message: 'What meal are you having?',
+    choices: ['octopus', 'tacos', 'falafel', 'cake', 'duck confit']
+  },
+  {
+    type: 'input',
+    name: 'animal',
+    message: 'What is your favorite animal? (plural)',
   },   
   {
     type: 'input',
@@ -113,7 +119,7 @@ const dateQs = [
     type: 'list',
     name: 'methodOfTravel',
     message: 'How do you like to get around when not driving?',
-    choices: ['walking', 'biking', 'tandem unicyling', 'boating', 'skating']
+    choices: ['walking', 'busing', 'tandem unicyling', 'rafting', 'E-Scootering']
   },   
   {
     type: 'input',
@@ -122,7 +128,7 @@ const dateQs = [
   },   
   {
     type: 'input',
-    name: 'animals',
+    name: 'beverage',
     message: 'What is your favorite beverage?',
   },   
   {
@@ -131,13 +137,14 @@ const dateQs = [
     message: 'An action word ending in -ing.',
   },   
   {
-    type: 'input',
-    name: 'animals',
+    type: 'list',
+    name: 'restaurant',
     message: 'What restaurant/bar would you take a date to?',
+    choices: ['Portland City Grill', 'Super Deluxe', 'Nicholas', 'Baby Doll Pizza', 'My Father\'s Place']
   },   
   {
     type: 'input',
-    name: 'animals',
+    name: 'clothing',
     message: 'What is your favorite article of clothing that you always wear on a first date?',
   }, 
 ];
