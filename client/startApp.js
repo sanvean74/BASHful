@@ -1,11 +1,11 @@
 const inquirer = require('inquirer');
-const { signinPrompt, signupPrompt } = require('./dateApp');
+const { signinPrompt, signupPrompt, aboutUsPrompt } = require('./dateApp');
 
 const startApp = [{
   type: 'list',
   name: 'start',
-  message: 'BASHful A Terminal Date Simulator',
-  choices: ['Sign In', 'Sign Up']
+  message: 'BASHful: A Terminal Date Simulator \n',
+  choices: ['Sign In', 'Sign Up', 'Meet the Devs']
 }];
 
 const dateApp = () => inquirer.prompt(startApp)
@@ -16,6 +16,9 @@ const dateApp = () => inquirer.prompt(startApp)
         break;
       case 'Sign Up' :
         signupPrompt();
+        break;
+      case 'Meet the Devs' :
+        aboutUsPrompt().then(dateApp);
         break;
     }    
   });
