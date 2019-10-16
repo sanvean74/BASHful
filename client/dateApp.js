@@ -78,7 +78,7 @@ const intermission = [
   {
     type: 'boolean',
     name: 'intermission',
-    message: 'HAWT! We have some questions before your date begins. Press enter to continue'
+    message: '\n HAWT! We have some questions before your date begins. Press enter to continue \n'
   }
 ];
 
@@ -145,12 +145,12 @@ const dateQs = [
   {
     type: 'input',
     name: 'clothing',
-    message: 'What is your favorite article of clothing that you always wear on a first date?',
+    message: 'What is your favorite article of clothing that you always wear on a first date?\n',
   },
   {
     type: 'boolean',
     name: 'intermission2',
-    message: 'Great job...now you\'re ready for your date! Press enter to continue'
+    message: 'Great job...now you\'re ready for your date! Press enter to continue\n'
   }
 ];
 
@@ -166,7 +166,7 @@ function newMatches(user) {
       {
         type: 'list',
         name: 'matchChoice',
-        message: 'Pick your date!',
+        message: '\n Pick your date! \n',
         choices: [`${chosenThree[0].name}`, `${chosenThree[1].name}`, `${chosenThree[2].name}`]
       }
     ));
