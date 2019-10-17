@@ -18,22 +18,22 @@ const sunset = (answers, match, genderPronoun, wasWere) => {
   return `I was supposed to meet ${match.name} at 5 PM at the ${answers.place}. But fate seemed to have a different idea for both of us. ${match.name} messaged me to let me know that ${genderPronoun} ${wasWere} going to be late because a pack of wild ${answers.animal} were ${answers.action} through the main road to ${answers.place}. ${genderPronoun} had to use an alternate way to get here and ended up ${answers.methodOfTravel} just to get here at all. If we had only met at ${answers.venue} we wouldn’t have had to deal with that. Not that having met at ${answers.venue} would have made the date itself any better or worse. When ${match.name} arrived we had a laugh about the unfortunate beginning of the date. We quickly decided to start ${answers.activity} which really worked up our appetites. ${genderPronoun} really wanted ${answers.food} and that sounded great to me so we went to ${answers.restaurant} to get ${answers.food} and ${answers.beverage}. We decided to also get some ${answers.dessert} to go because maybe we'd want that on the walk later. Feeling satiated with full bellies we walked around talking. The sun was going down which cast a beautiful ${answers.color} glow on everything. It was quite magical. And paired wonderfully with the ${answers.dessert}.  I had a great night. ${match.name} and I decided to meet up again soon and we parted ways with a kiss.`;
 };
 
-const lateAF = (answers, match, genderPronoun, toHave, wasWere) => { 
-  return `The witching hour fast approaches, I can hear the howls of city coyotes as I am ${answers.methodOfTravel} to meet my date at the Lone Fir Cemetery. I'm wearing the ${answers.color} feather in my hair to signal to my date that I have arrived. While walking through the cemetery I saw 3 ${answers.animal} which I read as a good omen, probably due to me wearing my lucky ${answers.clothing}. I met ${match.name} in front of a mausoleum in the NE corner of the cemetery. I think to myself, ${genderPronoun} sure ${wasWere} brave to meet me here at this hour, let's see if ${genderPronoun} ${toHave} what it takes to keep up with me. We sat around the cemetery for a while talking and drinking some ${answers.beverage} I brought with me. After a while I suggested ${answers.activity}, which is met with enthusiasm by my new partner in crime. We headed off, plotting and laughing maniacally as we traveled to ${answers.place}. We spent several hours ${answers.activity} and worked up quite the appetite. Fortunately, by the time we decided we were done, places started opening for breakfast. We headed off to $${answers.restaurant} for ${answers.food} where we spilled our guts to one another about our lives, hopes, and dreams. After spending these hours together we decided to meet up next Saturday night for ${answers.action} during the full moon at ${answers.venue}.  All in all, this turned out to be one of my best dates, if you can believe that.`;
+const lateAF = (answers, match, genderPronoun, toHave, toBe) => { 
+  return `The witching hour fast approaches, I can hear the howls of city coyotes as I am ${answers.methodOfTravel} to meet my date at the Lone Fir Cemetery. I'm wearing the ${answers.color} feather in my hair to signal to my date that I have arrived. While walking through the cemetery I saw 3 ${answers.animal} which I read as a good omen, probably due to me wearing my lucky ${answers.clothing}. I met ${match.name} in front of a mausoleum in the NE corner of the cemetery. I think to myself, ${genderPronoun} sure ${toBe} brave to meet me here at this hour, let's see if ${genderPronoun} ${toHave} what it takes to keep up with me. We sat around the cemetery for a while talking and drinking some ${answers.beverage} I brought with me. After a while I suggested ${answers.activity}, which is met with enthusiasm by my new partner in crime. We headed off, plotting and laughing maniacally as we traveled to ${answers.place}. We spent several hours ${answers.activity} and worked up quite the appetite. Fortunately, by the time we decided we were done, places started opening for breakfast. We headed off to ${answers.restaurant} for ${answers.food} where we spilled our guts to one another about our lives, hopes, and dreams. After spending these hours together we decided to meet up next Saturday night for ${answers.action} during the full moon at ${answers.venue}.  All in all, this turned out to be one of my best dates, if you can believe that.`;
 };
 
 
-function storySelect(answers, match, genderPronoun){
+function storySelect(answers, match, genderPronoun, toBe, toHave, wasWere){
   if(answers.timeOfDay === 'daybreak'){
-    return daybreak(answers, match, genderPronoun);
+    return daybreak(answers, match);
   } else if(answers.timeOfDay === 'noon'){
-    return noon(answers, match, genderPronoun);
+    return noon(answers, match, genderPronoun, wasWere);
   } else if(answers.timeOfDay === 'afternoon'){
-    return afternoon(answers, match, genderPronoun);
+    return afternoon(answers, match, genderPronoun, wasWere);
   } else if(answers.timeOfDay === 'sunset'){
-    return sunset(answers, match, genderPronoun);
+    return sunset(answers, match, genderPronoun, wasWere);
   } else if(answers.timeOfDay === 'late af'){
-    return lateAF(answers, match, genderPronoun);
+    return lateAF(answers, match, genderPronoun, toHave, toBe);
   }
 }
 
