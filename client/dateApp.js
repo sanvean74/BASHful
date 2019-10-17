@@ -378,13 +378,6 @@ function dateSim(answers, user, match) {
     });
 }
 
-// const dateAgain = {
-//   type: 'list',
-//   name: 'startOver',
-//   message: 'Would you like to date again?',
-//   choices: ['Yes!!', 'Pass']
-// }
-
 const signinPrompt = () =>
   inquirer.prompt(signinInput)
     .then(answers => {
