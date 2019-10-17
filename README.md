@@ -22,7 +22,6 @@ Are you too bashful to go outside and talk to real people?  Here is a dating sim
 
 
 ### Libraries, Frameworks, Packages: 
-asciify-image
 bcryptjs
 chalk
 chance 
@@ -35,9 +34,9 @@ jsdom
 jsonwebtoken 
 mongoose
 morgan 
-nodemon 
-play-sound
-superagent 
+nodemon
+superagent
+terminal-image 
 
 
 ## User Needs For Deploying Your Own Version Of App: 
