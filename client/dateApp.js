@@ -210,6 +210,19 @@ const dateQs = [
     }
   },
   {
+    type: 'input',
+    name: 'dessert',
+    message: 'What is your favorite dessert?',
+    validate: function validInput(input) {
+      if(input.length !== 0) {
+        return true;
+      }
+      else {
+        return 'Please enter a dessert';
+      }
+    }
+  },
+  {
     type: 'list',
     name: 'food',
     message: 'What meal are you having?',
@@ -335,18 +348,22 @@ function dateSim(answers, user, match){
   let genderPronoun;
   let toBe;
   let toHave;
+  let wasWere;
   if(match.gender[0] === 'male') {
     genderPronoun = 'he';
     toBe = 'is';
     toHave = 'has';
+    wasWere = 'was';
   } else if(match.gender[0] === 'female') {
     genderPronoun = 'she';
     toBe = 'is';
     toHave = 'has';
+    wasWere = 'was';
   } else {
     genderPronoun = 'they';
     toBe = 'are';
     toHave = 'have';
+    wasWere = 'were';
   }
   
   const story = storySelect(answers, match, genderPronoun);
