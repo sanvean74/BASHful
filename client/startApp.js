@@ -5,7 +5,7 @@ const terminalImage = require('terminal-image');
 const startApp = [{
   type: 'list',
   name: 'start',
-  message: 'BASHful: A Terminal Date Simulator \n',
+  message: 'BASHful: A Terminal Based Date Simulator \n',
   choices: ['Sign In', 'Sign Up', 'Meet the Devs']
 }];
 

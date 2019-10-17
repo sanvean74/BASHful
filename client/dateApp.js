@@ -1,10 +1,15 @@
 /* eslint-disable no-unused-vars */
 const inquirer = require('inquirer');
-// const chalk = require('chalk');
+const chalk = require('chalk');
+const chalkPipe = require('chalk-pipe');
 const request = require('superagent');
 const storySelect = require('./stories');
 const validator = require('email-validator');
 const terminalImage = require('terminal-image');
+// eslint-disable-next-line new-cap
+const chance = require('chance').Chance();
+
+const colors = ['#703896', '#e75ea2', '#f764d1', '#ff0391', '#fef6fa', '#62f2c4', '#1a60b0', '#d58ff9', '#aeda15', '#e5dd04', '#f8a71a', '#dc4604'];
 
 const REQUEST_URL = require('./requestUrl');
 
@@ -12,7 +17,7 @@ const signinInput = [
   {
     type: 'input',
     name: 'email',
-    message: 'Please enter your email',
+    message: chalkPipe(chance.pickone(colors))('Please enter your email'),
     validate: function validEmail(email) {
       if(!validator.validate(email)) {
         return 'Please enter a valid email';
@@ -25,7 +30,7 @@ const signinInput = [
   {
     type: 'password',
     name: 'password',
-    message: 'Please enter a password',
+    message: chalkPipe(chance.pickone(colors))('Please enter a password'),
     validate: function validPass(pass) {
       if(pass.length !== 0) {
         return true;
@@ -41,12 +46,12 @@ const signupInput = [
   {
     type: 'input',
     name: 'name',
-    message: 'Please type your name'
+    message: chalkPipe(chance.pickone(colors))('Please type your name')
   },
   {
     type: 'input',
     name: 'email',
-    message: 'Please enter your email',
+    message: chalkPipe(chance.pickone(colors))('Please enter your email'),
     validate: function validEmail(email) {
       if(!validator.validate(email)) {
         return 'Please enter a valid email';
@@ -59,7 +64,7 @@ const signupInput = [
   {
     type: 'password',
     name: 'password',
-    message: 'Please enter a password',
+    message: chalkPipe(chance.pickone(colors))('Please enter a password'),
     validate: function validPass(pass) {
       if(pass.length !== 0) {
         return true;
@@ -75,13 +80,13 @@ const signupPrefs = [
   {
     type: 'list',
     name: 'gender',
-    message: 'Please enter your gender',
+    message: chalkPipe(chance.pickone(colors))('Please enter your gender'),
     choices: ['female', 'male', 'non-binary']
   },
   {
     type: 'number',
     name: 'age',
-    message: 'Please enter your age',
+    message: chalkPipe(chance.pickone(colors))('Please enter your age'),
     default: 18,
     validate: function validAge(age) {
       if(age < 18) {
@@ -92,22 +97,17 @@ const signupPrefs = [
       }
     }
   },
-  // {
-  //   type: 'input',
-  //   name: 'image',
-  //   message: 'Please add a link to your best selfie'
-  // },
   {
     type: 'checkbox',
     name: 'genderPref',
-    message: 'Which gender are you looking to date?',
+    message: chalkPipe(chance.pickone(colors))('Which gender are you looking to date?'),
     choices: ['female', 'male', 'non-binary', 'no preference'],
     default: ['no preference']
   },
   {
     type: 'number',
     name: 'minPrefAge',
-    message: 'What is the youngest you would date?',
+    message: chalkPipe(chance.pickone(colors))('What is the youngest you would date?'),
     default: 18,
     validate: function validAge(age) {
       if(age < 18) {
@@ -121,7 +121,7 @@ const signupPrefs = [
   {
     type: 'number',
     name: 'maxPrefAge',
-    message: 'What is the oldest you would date?',
+    message: chalkPipe(chance.pickone(colors))('What is the oldest you would date?'),
     default: 120,
     validate: function validAge(age) {
       if(age > 120) {
@@ -138,7 +138,7 @@ const intermission = [
   {
     type: 'boolean',
     name: 'intermission',
-    message: '\n HAWT! We have some questions before your date begins. Press enter to continue \n'
+    message: chalkPipe('bg#303393.#f764d1')('\n 🔥🔥  HAWT!🔥🔥  We have some questions before your date begins. Press ENTER to continue\n')
   }
 ];
 
@@ -154,13 +154,13 @@ const dateQs = [
   {
     type: 'list',
     name: 'timeOfDay',
-    message: 'What time of day would you like to go on a date?',
+    message: chalkPipe(chance.pickone(colors))('What time of day would you like to go on a date?'),
     choices: ['daybreak', 'noon', 'afternoon', 'sunset', 'late af']
   },
   {
     type: 'input',
     name: 'venue',
-    message: 'Where would you like to go on a date?',
+    message: chalkPipe(chance.pickone(colors))('Where would you like to go on a date?'),
     validate: function validInput(input) {
       if(input.length !== 0) {
         return true;
@@ -173,7 +173,7 @@ const dateQs = [
   {
     type: 'input',
     name: 'activity',
-    message: 'What activity would you like to partake in? (ending in ing)',
+    message: chalkPipe(chance.pickone(colors))('What activity would you like to partake in? (ending in ing)'),
     validate: function validInput(input) {
       if(input.length !== 0) {
         return true;
@@ -186,7 +186,7 @@ const dateQs = [
   {
     type: 'input',
     name: 'dessert',
-    message: 'What is your favorite dessert?',
+    message: chalkPipe(chance.pickone(colors))('What is your favorite dessert?'),
     validate: function validInput(input) {
       if(input.length !== 0) {
         return true;
@@ -199,13 +199,13 @@ const dateQs = [
   {
     type: 'list',
     name: 'food',
-    message: 'What meal are you having?',
-    choices: ['octopus', 'tacos', 'falafel', 'cake', 'duck confit']
+    message: chalkPipe(chance.pickone(colors))('What meal are you having?'),
+    choices: ['🐙  octopus', '🌮  tacos', '🍰  cake', '🥙  falafel', '🦆  duck confit']
   },
   {
     type: 'input',
     name: 'animal',
-    message: 'What is your favorite animal? (plural)',
+    message: chalkPipe(chance.pickone(colors))('What is your favorite animal 🐘  🐍  🦀  ? (plural)'),
     validate: function validInput(input) {
       if(input.length !== 0) {
         return true;
@@ -218,7 +218,7 @@ const dateQs = [
   {
     type: 'input',
     name: 'color',
-    message: 'What is your favorite color?',
+    message: chalkPipe(chance.pickone(colors))('What is your favorite color 🌈  ?'),
     validate: function validInput(input) {
       if(input.length !== 0) {
         return true;
@@ -231,8 +231,8 @@ const dateQs = [
   {
     type: 'list',
     name: 'methodOfTravel',
-    message: 'How do you like to get around when not driving?',
-    choices: ['walking', 'busing', 'unicyling', 'kayaking', 'e-scootering']
+    message: chalkPipe(chance.pickone(colors))('How do you like to get around when not driving?'),
+    choices: ['🚶  walking', '🚌   busing', '🤡  unicyling', '🛶  kayaking', '🛴  e-scootering']
   },
   {
     type: 'input',
@@ -250,7 +250,7 @@ const dateQs = [
   {
     type: 'input',
     name: 'beverage',
-    message: 'What is your beverage of choice?',
+    message: chalkPipe(chance.pickone(colors))('What is your beverage of choice 🍺  ?'),
     validate: function validInput(input) {
       if(input.length !== 0) {
         return true;
@@ -263,7 +263,7 @@ const dateQs = [
   {
     type: 'input',
     name: 'action',
-    message: 'An action word ending in -ing.',
+    message: chalkPipe(chance.pickone(colors))('An action word (ending in -ing).'),
     validate: function validInput(input) {
       if(input.length !== 0) {
         return true;
@@ -276,13 +276,13 @@ const dateQs = [
   {
     type: 'list',
     name: 'restaurant',
-    message: 'What restaurant/bar would you take a date to?',
+    message: chalkPipe(chance.pickone(colors))('What restaurant/bar would you take a date to?'),
     choices: ['Portland City Grill', 'Super Deluxe', 'Nicholas', 'Baby Doll Pizza', 'My Father\'s Place']
   },
   {
     type: 'input',
     name: 'clothing',
-    message: 'What is your favorite article of clothing that you always wear on a first date?\n',
+    message: chalkPipe(chance.pickone(colors))('What is your favorite article of clothing that you always wear on a first date?\n'),
     validate: function validInput(input) {
       if(input.length !== 0) {
         return true;
@@ -295,7 +295,7 @@ const dateQs = [
   {
     type: 'boolean',
     name: 'intermission2',
-    message: 'Great job...now you\'re ready for your date! Press enter to continue\n'
+    message: chalkPipe('bg#dc4604.#e5dd04')('♡ ✧:･ﾟ♡ Great job...now you\'re ready for your date! Press ENTER to continue ♡ ✧:･ﾟ♡ \n')
   }
 ];
 
