@@ -4,6 +4,7 @@ const inquirer = require('inquirer');
 const request = require('superagent');
 const storySelect = require('./stories');
 const validator = require('email-validator');
+const terminalImage = require('terminal-image');
 
 const REQUEST_URL = require('./requestUrl');
 
@@ -451,8 +452,22 @@ const signupPrompt = () =>
         });
     });
 
+const evanTest = ['Evan: A full stack software developer. When he\'s not coding, he enjoys hiking, going to shows, and playing chess. \n', 'Evan2: A full stack software developer. When he\'s not coding, he enjoys hiking, going to shows, and playing chess. \n'];
+
+const img = ['assets/images/ivyweb.jpeg', 'assets/images/testm.jpg'];
+
 const aboutUsPrompt = () => {
-  return inquirer.prompt(aboutUs);
+  return Promise.all(img.map((path) => terminalImage.file(path)))
+    .then(termiImages => {
+      return inquirer.prompt(termiImages.map((image, i) => {
+        return {
+          name: 'about us',
+          type: 'boolean',
+          message: `${image} \n\n ${evanTest[i]}`
+        };
+      }));
+    })
+    .catch(err => console.log(err));
 };
 
 
