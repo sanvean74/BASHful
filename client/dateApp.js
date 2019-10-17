@@ -13,7 +13,7 @@ const signinInput = [
     name: 'email',
     message: 'Please enter your email',
     validate: function validEmail(email) {
-      if(!validator.validate(email)){
+      if(!validator.validate(email)) {
         return 'Please enter a valid email';
       }
       else {
@@ -47,7 +47,7 @@ const signupInput = [
     name: 'email',
     message: 'Please enter your email',
     validate: function validEmail(email) {
-      if(!validator.validate(email)){
+      if(!validator.validate(email)) {
         return 'Please enter a valid email';
       }
       else {
@@ -171,6 +171,14 @@ const intermission = [
     type: 'boolean',
     name: 'intermission',
     message: '\n HAWT! We have some questions before your date begins. Press enter to continue \n'
+  }
+];
+
+const intermission3 = [
+  {
+    type: 'boolean',
+    name: 'intermission3',
+    message: '\n Not satisfied? Pick a new date! \n'
   }
 ];
 
@@ -342,7 +350,7 @@ function newMatches(user) {
     ));
 }
 
-function dateSim(answers, user, match){
+function dateSim(answers, user, match) {
   let genderPronoun;
   let toBe;
   let toHave;
@@ -363,7 +371,7 @@ function dateSim(answers, user, match){
     toHave = 'have';
     wasWere = 'were';
   }
-  
+
   const story = storySelect(answers, match, genderPronoun);
 
   return request
@@ -379,7 +387,7 @@ function dateSim(answers, user, match){
           console.log(body.result)); //We need this to display the story to user
     });
 }
-  
+
 const signinPrompt = () =>
   inquirer.prompt(signinInput)
     .then(answers => {
