@@ -233,7 +233,7 @@ const dateQs = [
     type: 'list',
     name: 'methodOfTravel',
     message: 'How do you like to get around when not driving?',
-    choices: ['walking', 'busing', 'tandem unicyling', 'rafting', 'E-Scootering']
+    choices: ['walking', 'busing', 'unicyling', 'kayaking', 'e-scootering']
   },
   {
     type: 'input',
