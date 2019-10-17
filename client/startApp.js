@@ -18,10 +18,10 @@ const dateApp = () => {
     .then(answers => {    
       switch(answers.start) {
         case 'Sign In' :
-          signinPrompt();
+          signinPrompt().then(dateApp);
           break;
         case 'Sign Up' :
-          signupPrompt();
+          signupPrompt().then(dateApp);
           break;
         case 'Meet the Devs' :
           aboutUsPrompt().then(dateApp);

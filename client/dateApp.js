@@ -356,6 +356,13 @@ function dateSim(answers, user, match) {
     });
 }
 
+// const dateAgain = {
+//   type: 'list',
+//   name: 'startOver',
+//   message: 'Would you like to date again?',
+//   choices: ['Yes!!', 'Pass']
+// }
+
 const signinPrompt = () =>
   inquirer.prompt(signinInput)
     .then(answers => {
@@ -440,10 +447,11 @@ const signupPrompt = () =>
         .then(() => inquirer.prompt(intermission))
         .then(() => inquirer.prompt(dateQs))
         .then((answers) => {
-          return dateSim(answers, user, match);
+          return dateSim(answers, user, match)
+            .then(dateApp());
         });
     });
- 
+
 const evanTest = ['WE ARE TEAM DEAD ANT...', 'Dylan: An agendered poly queer circus performer and punk/metal musician that enjoys spending time with their family in the forest and gardening. Their hobbies include: dance trapeze, hand-balancing, playing and making music, guitar, singing in choirs and screaming in bands. \n', 'Evan: A full stack software developer. When he\'s not coding, he enjoys hiking, going to shows, and playing chess. \n', 'Angela: Graphic Designer/Animator turned Software Developer. Enjoys costume making, cooking/baking, gardening, and horror/sci-fi flicks. \n', 'Donna: Like a cat, but Vegan. Also likes chess. \n', 'Antonella: Loves cute and fluffy dogs and anime, dislikes cooked carrots. Played \'Dream Daddy\' twice. \n'];
 
 const img = ['assets/images/deadant-small.png', 'assets/images/dylan.png', 'assets/images/evan.png', 'assets/images/angela.png', 'assets/images/donna.png', 'assets/images/antonella.png'];
