@@ -341,7 +341,7 @@ function dateSim(answers, user, match) {
     wasWere = 'were';
   }
 
-  const story = storySelect(answers, match, genderPronoun);
+  const story = storySelect(answers, match, genderPronoun, toBe, toHave, wasWere);
 
   return request
     .post(`${REQUEST_URL}/api/results`)
