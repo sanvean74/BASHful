@@ -462,8 +462,7 @@ const signupPrompt = () =>
         .then(() => inquirer.prompt(intermission))
         .then(() => inquirer.prompt(dateQs))
         .then((answers) => {
-          return dateSim(answers, user, match)
-            .then(dateApp());
+          return dateSim(answers, user, match);
         });
     });
 
