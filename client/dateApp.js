@@ -9,7 +9,7 @@ const terminalImage = require('terminal-image');
 // eslint-disable-next-line new-cap
 const chance = require('chance').Chance();
 
-const colors = ['#703896', '#e75ea2', '#f764d1', '#ff0391', '#fef6fa', '#62f2c4', '#489710', '#d58ff9', '#aeda15', '#e5dd04', '#f8a71a', '#dc4604'];
+const colors = ['#703896', '#e75ea2', '#f764d1', '#ff0391', '#fef6fa', '#62f2c4', '#1a60b0', '#d58ff9', '#aeda15', '#e5dd04', '#f8a71a', '#dc4604'];
 
 const REQUEST_URL = require('./requestUrl');
 
@@ -200,12 +200,12 @@ const dateQs = [
     type: 'list',
     name: 'food',
     message: chalkPipe(chance.pickone(colors))('What meal are you having?'),
-    choices: ['🐙 octopus', '🌮 tacos', '🍰 cake', '🥙 falafel', '🦆 duck confit']
+    choices: ['🐙  octopus', '🌮  tacos', '🍰  cake', '🥙  falafel', '🦆  duck confit']
   },
   {
     type: 'input',
     name: 'animal',
-    message: chalkPipe(chance.pickone(colors))('What is your favorite animal 🐘  🐍  🦀 ? (plural)'),
+    message: chalkPipe(chance.pickone(colors))('What is your favorite animal 🐘  🐍  🦀  ? (plural)'),
     validate: function validInput(input) {
       if(input.length !== 0) {
         return true;
@@ -232,7 +232,7 @@ const dateQs = [
     type: 'list',
     name: 'methodOfTravel',
     message: chalkPipe(chance.pickone(colors))('How do you like to get around when not driving?'),
-    choices: ['🚶 walking', '🚌  busing', '🤡 unicyling', '🛶 kayaking', '🛴 e-scootering']
+    choices: ['🚶  walking', '🚌   busing', '🤡  unicyling', '🛶  kayaking', '🛴  e-scootering']
   },
   {
     type: 'input',
@@ -250,7 +250,7 @@ const dateQs = [
   {
     type: 'input',
     name: 'beverage',
-    message: chalkPipe(chance.pickone(colors))('What is your beverage of choice 🍺?'),
+    message: chalkPipe(chance.pickone(colors))('What is your beverage of choice 🍺  ?'),
     validate: function validInput(input) {
       if(input.length !== 0) {
         return true;
