@@ -5,7 +5,6 @@ const request = require('superagent');
 const storySelect = require('./stories');
 const validator = require('email-validator');
 const terminalImage = require('terminal-image');
-const asciify = require('asciify-image');
 
 const REQUEST_URL = require('./requestUrl');
 
