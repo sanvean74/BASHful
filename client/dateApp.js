@@ -309,14 +309,29 @@ function newMatches(user) {
     .set('Authorization', user.token)
     .send({ minAge: user.minPrefAge, maxAge: user.maxPrefAge, gender: user.genderPref })
     .then(({ body }) => chosenThree = body)
-    .then(() => inquirer.prompt(
-      {
-        type: 'list',
-        name: 'matchChoice',
-        message: '\n Pick your date! \n',
-        choices: [`${chosenThree[0].name}`, `${chosenThree[1].name}`, `${chosenThree[2].name}`]
-      }
-    ));
+    .then(() => Promise.all([
+      request.get(chosenThree[0].image),
+      request.get(chosenThree[1].image),
+      request.get(chosenThree[2].image)
+    ])
+    )
+    .then(res => {
+      return Promise.all(res.map((response) => terminalImage.buffer(response.body)))
+        .then(matchImages => {
+          return inquirer.prompt(
+            {
+              type: 'list',
+              name: 'matchChoice',
+              message: `\n Pick your date! \n*${chosenThree[0].name}:\n${matchImages[0]}\n*${chosenThree[1].name}:\n${matchImages[1]}\n*${chosenThree[2].name}:\n${matchImages[2]}`,
+              choices: [
+                `${chosenThree[0].name}, age:${chosenThree[0].age}, location:${chosenThree[0].location.city}, ${chosenThree[0].location.state}`,
+                `${chosenThree[1].name}, age:${chosenThree[1].age}, location:${chosenThree[1].location.city}, ${chosenThree[1].location.state}`,
+                `${chosenThree[2].name}, age:${chosenThree[2].age}, location:${chosenThree[2].location.city}, ${chosenThree[2].location.state}`
+              ]
+            }
+          );
+        });
+    });
 }
 
 function dateSim(answers, user, match) {
