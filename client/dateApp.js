@@ -475,7 +475,7 @@ const aboutUsPrompt = () => {
             return {
               name: 'about us',
               type: 'boolean',
-              message: `${image} \n\n ${evanTest[i]}`
+              message: `\n\n ${image} \n\n ${evanTest[i]}`
             };
           }));
         });
