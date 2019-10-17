@@ -317,11 +317,18 @@ function newMatches(user) {
     .then(res => {
       return Promise.all(res.map((response) => terminalImage.buffer(response.body)))
         .then(matchImages => {
+          return inquirer.prompt({
+            type: 'boolean',
+            name: 'displayMatches',
+            message: `Here are your matches! Press enter to continue\n\n*${chosenThree[0].name}:\n${matchImages[0]}\n\n*${chosenThree[1].name}:\n${matchImages[1]}\n\n*${chosenThree[2].name}:\n${matchImages[2]}`
+          });
+        })
+        .then(() => {
           return inquirer.prompt(
             {
               type: 'list',
               name: 'matchChoice',
-              message: `\n Pick your date! \n*${chosenThree[0].name}:\n${matchImages[0]}\n*${chosenThree[1].name}:\n${matchImages[1]}\n*${chosenThree[2].name}:\n${matchImages[2]}`,
+              message: `\n Pick your date! \n`,
               choices: [
                 `${chosenThree[0].name}, age:${chosenThree[0].age}, location:${chosenThree[0].location.city}, ${chosenThree[0].location.state}`,
                 `${chosenThree[1].name}, age:${chosenThree[1].age}, location:${chosenThree[1].location.city}, ${chosenThree[1].location.state}`,
