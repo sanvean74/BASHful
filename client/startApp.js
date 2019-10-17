@@ -21,6 +21,9 @@ const dateApp = () => inquirer.prompt(startApp)
         aboutUsPrompt().then(dateApp);
         break;
     }    
+  })
+  .catch(err => {
+    console.log('error:', err);
   });
 
 module.exports = dateApp;

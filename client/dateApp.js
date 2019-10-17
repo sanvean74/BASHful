@@ -1,6 +1,9 @@
+/* eslint-disable no-unused-vars */
 const inquirer = require('inquirer');
 // const chalk = require('chalk');
 const request = require('superagent');
+const storySelect = require('./stories');
+const validator = require('email-validator');
 
 const REQUEST_URL = require('./requestUrl');
 
@@ -8,12 +11,28 @@ const signinInput = [
   {
     type: 'input',
     name: 'email',
-    message: 'Please enter your email'
+    message: 'Please enter your email',
+    validate: function validEmail(email) {
+      if(!validator.validate(email)){
+        return 'Please enter a valid email';
+      }
+      else {
+        return true;
+      }
+    }
   },
   {
     type: 'password',
     name: 'password',
-    message: 'Please enter a password'
+    message: 'Please enter a password',
+    validate: function validPass(pass) {
+      if(pass.length !== 0) {
+        return true;
+      }
+      else {
+        return 'Please enter a valid password';
+      }
+    }
   }
 ];
 
@@ -26,12 +45,28 @@ const signupInput = [
   {
     type: 'input',
     name: 'email',
-    message: 'Please enter your email'
+    message: 'Please enter your email',
+    validate: function validEmail(email) {
+      if(!validator.validate(email)){
+        return 'Please enter a valid email';
+      }
+      else {
+        return true;
+      }
+    }
   },
   {
     type: 'password',
     name: 'password',
-    message: 'Please enter a password'
+    message: 'Please enter a password',
+    validate: function validPass(pass) {
+      if(pass.length !== 0) {
+        return true;
+      }
+      else {
+        return 'Please enter a valid password';
+      }
+    }
   }
 ];
 
@@ -46,13 +81,21 @@ const signupPrefs = [
     type: 'number',
     name: 'age',
     message: 'Please enter your age',
-    default: 18
+    default: 18,
+    validate: function validAge(age) {
+      if(age < 18) {
+        return 'You must be at least 18 years old to play';
+      }
+      else {
+        return true;
+      }
+    }
   },
-  {
-    type: 'input',
-    name: 'image',
-    message: 'Please add a link to your best selfie'
-  },
+  // {
+  //   type: 'input',
+  //   name: 'image',
+  //   message: 'Please add a link to your best selfie'
+  // },
   {
     type: 'checkbox',
     name: 'genderPref',
@@ -64,13 +107,29 @@ const signupPrefs = [
     type: 'number',
     name: 'minPrefAge',
     message: 'What is the youngest you would date?',
-    default: 18
+    default: 18,
+    validate: function validAge(age) {
+      if(age < 18) {
+        return 'Whoa there! You cannot date underage people!!';
+      }
+      else {
+        return true;
+      }
+    }
   },
   {
     type: 'number',
     name: 'maxPrefAge',
     message: 'What is the oldest you would date?',
-    default: 120
+    default: 120,
+    validate: function validAge(age) {
+      if(age > 120) {
+        return 'Uhhh why are you trying to be a grave robber? pick someone younger';
+      }
+      else {
+        return true;
+      }
+    }
   }
 ];
 
@@ -126,11 +185,27 @@ const dateQs = [
     type: 'input',
     name: 'venue',
     message: 'Where would you like to go on a date?',
+    validate: function validInput(input) {
+      if(input.length !== 0) {
+        return true;
+      }
+      else {
+        return 'Please enter a venue';
+      }
+    }
   },
   {
     type: 'input',
     name: 'activity',
     message: 'What activity would you like to partake in? (ending in ing)',
+    validate: function validInput(input) {
+      if(input.length !== 0) {
+        return true;
+      }
+      else {
+        return 'Please enter an activity';
+      }
+    }
   },
   {
     type: 'list',
@@ -142,11 +217,27 @@ const dateQs = [
     type: 'input',
     name: 'animal',
     message: 'What is your favorite animal? (plural)',
+    validate: function validInput(input) {
+      if(input.length !== 0) {
+        return true;
+      }
+      else {
+        return 'Please enter an animal';
+      }
+    }
   },
   {
     type: 'input',
     name: 'color',
     message: 'What is your favorite color?',
+    validate: function validInput(input) {
+      if(input.length !== 0) {
+        return true;
+      }
+      else {
+        return 'Please enter a color';
+      }
+    }
   },
   {
     type: 'list',
@@ -158,16 +249,40 @@ const dateQs = [
     type: 'input',
     name: 'place',
     message: 'Name a place you love to take people.',
+    validate: function validInput(input) {
+      if(input.length !== 0) {
+        return true;
+      }
+      else {
+        return 'Please enter a place';
+      }
+    }
   },
   {
     type: 'input',
     name: 'beverage',
     message: 'What is your beverage of choice?',
+    validate: function validInput(input) {
+      if(input.length !== 0) {
+        return true;
+      }
+      else {
+        return 'Please enter a beverage';
+      }
+    }
   },
   {
     type: 'input',
     name: 'action',
     message: 'An action word ending in -ing.',
+    validate: function validInput(input) {
+      if(input.length !== 0) {
+        return true;
+      }
+      else {
+        return 'Please enter an action';
+      }
+    }
   },
   {
     type: 'list',
@@ -179,6 +294,14 @@ const dateQs = [
     type: 'input',
     name: 'clothing',
     message: 'What is your favorite article of clothing that you always wear on a first date?\n',
+    validate: function validInput(input) {
+      if(input.length !== 0) {
+        return true;
+      }
+      else {
+        return 'Please enter a clothing item';
+      }
+    }
   },
   {
     type: 'boolean',
@@ -205,7 +328,7 @@ function newMatches(user) {
       }
     ));
 }
-  
+
 function dateSim(answers, user, match){
   let genderPronoun;
   let toBe;
@@ -223,10 +346,13 @@ function dateSim(answers, user, match){
     toBe = 'are';
     toHave = 'have';
   }
+  
+  const story = storySelect(answers, match, genderPronoun);
+
   return request
     .post(`${REQUEST_URL}/api/results`)
     .set('Authorization', user.token)
-    .send({ user: user._id, match: match._id, result:`The witching hour fast approaches, I can hear the howls of city coyotes as I am ${answers.methodOfTravel} to meet my date at the Lone Fir Cemetery.I'm wearing the ${answers.color} feather in my hair to signal to my date that I have arrived. I met ${match.name} in front of a mausoleum in the NE corner of the cemetery. I think to myself, ${genderPronoun} sure ${toBe} brave to meet me here at this hour, let's see if ${genderPronoun} ${toHave} what it takes to keep up with me. We sat around the cemetery for a while talking and drinking some ${answers.beverage} I brought with me. After a while I suggested ${answers.activity}, which is met with enthusiasm by my new partner in crime. We headed off, plotting and laughing maniacally as we traveled to ${answers.place}. We spent several hours ${answers.activity} and worked up quite the appetite. Fortunately, by the time we decided we were done, places started opening for breakfast. We headed off to ${answers.restaurant} for ${answers.food} where we spilled our guts to one another about our lives, hopes, and dreams. After spending these hours together we decided to meet up next Saturday night for ${answers.action} during the full moon at ${answers.venue}.  All in all, this turned out to be one of my best dates, if you can believe that.` })
+    .send({ user: user._id, match: match._id, result: story })
     .then(({ body }) => body)
     .then((result) => {
       return request
@@ -267,6 +393,10 @@ const signinPrompt = () =>
         .then((answers) => {
           return dateSim(answers, user, match);
         });
+    })
+    .catch(() => {
+      console.log('ERROR: Invalid email or password');
+      signinPrompt();
     });
 
 const signupPrompt = () =>
