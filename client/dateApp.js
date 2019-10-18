@@ -288,7 +288,7 @@ const dateQs = [
         return true;
       }
       else {
-        return 'Please enter a clothing item';
+        return 'Please enter a clothing item \n';
       }
     }
   },
@@ -468,7 +468,7 @@ const signupPrompt = () =>
         .then(() => inquirer.prompt(intermission3));
     });
 
-const evanTest = ['WE ARE TEAM DEAD ANT...', 'Dylan: An agendered poly queer circus performer and punk/metal musician that enjoys spending time with their family in the forest and gardening. Their hobbies include: dance trapeze, hand-balancing, playing and making music, guitar, singing in choirs and screaming in bands. \n', 'Evan: A full stack software developer. When he\'s not coding, he enjoys hiking, going to shows, and playing chess. \n', 'Angela: Graphic Designer/Animator turned Software Developer. Enjoys costume making, cooking/baking, gardening, and horror/sci-fi flicks. \n', 'Donna: Like a cat, but Vegan. Also likes chess. \n', 'Antonella: Loves cute and fluffy dogs and anime, dislikes cooked carrots. Played \'Dream Daddy\' twice. \n'];
+const evanTest = [chalkPipe('#f8a71a')('WE ARE TEAM DEAD ANT...'), chalkPipe('#e75ea2')('Dylan: An agendered poly queer circus performer and punk/metal musician that enjoys spending time with their family in the forest and gardening. Their hobbies include: dance trapeze, hand-balancing, playing and making music, guitar, singing in choirs and screaming in bands. \n'), chalkPipe('#aeda15')('Evan: A full stack software developer. When he\'s not coding, he enjoys hiking, going to shows, and playing chess. \n'), chalkPipe('#e5dd04')('Angela: Graphic Designer/Animator turned Software Developer. Enjoys costume making, cooking/baking, gardening, and horror/sci-fi flicks. \n'), chalkPipe('#dc4604')('Donna: Like a cat, but Vegan. Also likes chess. \n'), chalkPipe('#d58ff9')('Antonella: Loves cute and fluffy dogs and anime, dislikes cooked carrots. Played \'Dream Daddy\' twice. \n')];
 
 const img = ['assets/images/deadant-small.png', 'assets/images/dylan.png', 'assets/images/evan.png', 'assets/images/angela.png', 'assets/images/donna.png', 'assets/images/antonella.png'];
 
