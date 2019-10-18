@@ -11,7 +11,6 @@ Antonella Gutierrez
 ## Description: 
 ✧･ﾟ: ✧･ﾟ: A Terminal Based Dating Simulator :･ﾟ✧:･ﾟ✧
 
-
 ## Problem Domain: 
 Are you too bashful to go outside and talk to real people?  Here is a dating simulator to help curb those social anxiety fears. Refine your ideas for what constitutes the perfect date.  For all genders and orientations.
 
@@ -24,26 +23,25 @@ Are you too bashful to go outside and talk to real people?  Here is a dating sim
 * [heroku](https://bashful-game.herokuapp.com/)
 
 ### Libraries, Frameworks, Packages: 
-bcryptjs
-chalk
-chalk-pipe
-chance 
-dotenv 
-email-validator
-eslint 
-express 
-inquirer
-jsonwebtoken 
-mongoose
-morgan 
-nodemon
-play-sound
-superagent
-terminal-image 
-prettier
-supertest
-jest
-
+* bcryptjs
+* chalk
+* chalk-pipe
+* chance 
+* dotenv 
+* email-validator
+* eslint 
+* express 
+* inquirer
+* jsonwebtoken 
+* mongoose
+* morgan 
+* nodemon
+* play-sound
+* superagent
+* terminal-image 
+* prettier
+* supertest
+* jest
 
 ## User Needs For Deploying Your Own Version Of App: 
 * Clone this repo to your local machine
