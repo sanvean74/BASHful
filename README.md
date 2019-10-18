@@ -1,4 +1,4 @@
-# BASHful: A Terminal Date Simulator
+# BASHful: A Terminal Based Date Simulator
 ![logo](assets/images/BASHful-Logo-grid.png)
 
 ## Created By DEAD ANT: 
