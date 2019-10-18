@@ -11,7 +11,6 @@ Antonella Gutierrez
 ## Description: 
 ✧･ﾟ: ✧･ﾟ: A Terminal Based Dating Simulator :･ﾟ✧:･ﾟ✧
 
-
 ## Problem Domain: 
 Are you too bashful to go outside and talk to real people?  Here is a dating simulator to help curb those social anxiety fears. Refine your ideas for what constitutes the perfect date.  For all genders and orientations.
 
@@ -24,26 +23,25 @@ Are you too bashful to go outside and talk to real people?  Here is a dating sim
 * [heroku](https://bashful-game.herokuapp.com/)
 
 ### Libraries, Frameworks, Packages: 
-bcryptjs
-chalk
-chalk-pipe
-chance 
-dotenv 
-email-validator
-eslint 
-express 
-inquirer
-jsonwebtoken 
-mongoose
-morgan 
-nodemon
-play-sound
-superagent
-terminal-image 
-prettier
-supertest
-jest
-
+* bcryptjs
+* chalk
+* chalk-pipe
+* chance 
+* dotenv 
+* email-validator
+* eslint 
+* express 
+* inquirer
+* jsonwebtoken 
+* mongoose
+* morgan 
+* nodemon
+* play-sound
+* superagent
+* terminal-image 
+* prettier
+* supertest
+* jest
 
 ## User Needs For Deploying Your Own Version Of App: 
 * Clone this repo to your local machine
@@ -62,7 +60,7 @@ jest
 ## Conflict Plan:
 - open and honest communication 
 - remove self from conflict/situation 
-- Dylan has offered to help with conflict resolution. If Dylan is having issues, please tell them to: "Get your shit together. Get it all together. And put it in a backpack. All your shit. So it’s together. And if you gotta take it somewhere, take it somewhere, you know, take it to the shit store and sell it… Or put it in a shit museum, I don’t care what you do, you just gotta get it together."
+- Dylan has offered to help with conflict resolution
 - time management
 
 ## Communication Plan: 
@@ -71,5 +69,6 @@ jest
 
 ## Mob/pair programming: 
 - debugging 
-- unsure tutorials 
+- inquirer coding
+- applying color and music 
 - merging done as group
