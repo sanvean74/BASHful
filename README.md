@@ -60,7 +60,7 @@ Are you too bashful to go outside and talk to real people?  Here is a dating sim
 ## Conflict Plan:
 - open and honest communication 
 - remove self from conflict/situation 
-- Dylan has offered to help with conflict resolution. If Dylan is having issues, please tell them to: "Get your shit together. Get it all together. And put it in a backpack. All your shit. So it’s together. And if you gotta take it somewhere, take it somewhere, you know, take it to the shit store and sell it… Or put it in a shit museum, I don’t care what you do, you just gotta get it together."
+- Dylan has offered to help with conflict resolution
 - time management
 
 ## Communication Plan: 
@@ -69,5 +69,6 @@ Are you too bashful to go outside and talk to real people?  Here is a dating sim
 
 ## Mob/pair programming: 
 - debugging 
-- unsure tutorials 
+- inquirer coding
+- applying color and music 
 - merging done as group
