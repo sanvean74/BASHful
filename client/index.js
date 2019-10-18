@@ -1,3 +1,13 @@
-const dateApp = require('./dateApp');
+const startApp = require('./startApp');
+const { exec } = require('child_process');
 
-dateApp();
+startApp();
+
+const audio = () => {
+  const cmd = exec('afplay assets/audio/berlin.mp3');
+  process.on('SIGINT', () => {
+    cmd.kill();
+  });
+};
+
+audio();
