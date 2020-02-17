@@ -11,6 +11,9 @@ Antonella Gutierrez
 ## Description: 
 ✧･ﾟ: ✧･ﾟ: A Terminal Based Dating Simulator :･ﾟ✧:･ﾟ✧
 
+## Video Demo:
+[BASHful Video Demo](https://www.youtube.com/watch?v=RGdZW4rLYr8&feature=youtu.be)
+
 ## Problem Domain: 
 Are you too bashful to go outside and talk to real people?  Here is a dating simulator to help curb those social anxiety fears. Refine your ideas for what constitutes the perfect date.  For all genders and orientations.
 
